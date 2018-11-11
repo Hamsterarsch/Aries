@@ -3,26 +3,27 @@
 #include <functional>
 #include "ShaderCluster.h"
 #include "IContextBinding.h"
+#include "PassMetadata.h"
 
 class FRenderPass : public IContextBinding
 {
 public:
-	void ReceiveOnBegin()
+	void ReceiveOnBegin(ID3D11DeviceContext &Context)
 	{
 		if (m_fOnBegin)
 		{
-			m_fOnBegin();
+			m_fOnBegin(Context, m_pPassMetadata);
 
 		}
 
 
 	}
 
-	void ReceiveOnFinish()
+	void ReceiveOnFinish(ID3D11DeviceContext &Context)
 	{
 		if (m_fOnFinish)
 		{
-			m_fOnFinish();
+			m_fOnFinish(Context, m_pPassMetadata);
 
 		}
 
@@ -36,9 +37,10 @@ public:
 
 	}
 
-	std::function<void()> m_fOnBegin;
-	std::function<void()> m_fOnFinish;
+	std::function<void(ID3D11DeviceContext &Context, std::shared_ptr<FPassMetadata> &)> m_fOnBegin;
+	std::function<void(ID3D11DeviceContext &Context, std::shared_ptr<FPassMetadata> &)> m_fOnFinish;
 	std::shared_ptr<FShaderCluster> m_pShaderCluster;
+	std::shared_ptr<FPassMetadata> m_pPassMetadata;
 
 
 };

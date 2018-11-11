@@ -13,6 +13,20 @@ public:
 	ID3D11ShaderResourceView *const *GetViewResource() const noexcept;
 	ID3D11RenderTargetView *const *GetViewTarget() const noexcept;
 
+	ComPtr<ID3D11ShaderResourceView> GetViewResourceCom() 
+	{
+		return m_pResourceView;
+
+
+	}
+
+	ComPtr<ID3D11RenderTargetView> GetViewTargetCom()
+	{
+		return m_pRenderView;
+
+
+	}
+
 	void Clear(ID3D11DeviceContext &Context);
 
 

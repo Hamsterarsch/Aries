@@ -164,6 +164,7 @@
     <ClInclude Include="hdr\Error.h" />
     <ClInclude Include="hdr\ForwardRenderer.h" />
     <ClInclude Include="hdr\IContextBinding.h" />
+    <ClInclude Include="hdr\PassMetadata.h" />
     <ClInclude Include="hdr\PixelBase.h" />
     <ClInclude Include="hdr\IMesh.h" />
     <ClInclude Include="hdr\Light.h" />

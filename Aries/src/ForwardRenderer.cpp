@@ -136,13 +136,13 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 		//For every pass
 		for (auto &&Pass : Actor->GetRenderPasses())
 		{
+			Pass->ReceiveOnBegin(*pContext);
 			if (!Pass->Bind(*pContext))
 			{
 				break;
 
 			}
 
-			Pass->ReceiveOnBegin();
 			pContext->DrawIndexed
 			(
 				static_cast<UINT>(Actor->GetMesh()->GetIbSize()),
@@ -150,7 +150,7 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 				0
 			
 			);
-			Pass->ReceiveOnFinish();
+			Pass->ReceiveOnFinish(*pContext);
 
 
 		}
@@ -182,7 +182,7 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 		*/
 
 	}
-	
+
 	
 }
 

@@ -16,7 +16,7 @@ cbuffer ReflectionBuffer : register(b1)
 
 struct AppToVert
 {
-	float4 Position : POSITION;
+	float3 Position : POSITION;
 	float3 Normal : NORMAL;
 	float2 Uv : TEXCOORD0;
 
@@ -37,14 +37,12 @@ VertToPixel main(AppToVert IN)
 	VertToPixel OUT;
 	
 	//IN.Position.w = 1;
-	OUT.Position = mul(mul(mul(IN.Position, WorldMatrix), ViewMatrix), ProjectionMatrix);
+	OUT.Position = mul(mul(mul(float4(IN.Position, 1), WorldMatrix), ViewMatrix), ProjectionMatrix);
 	OUT.Uv = IN.Uv;
 
-	matrix ReflectProjectWorldMatrix = mul(mul(WorldMatrix, ReflectionMatrix), ProjectionMatrix);
-	//ReflectProjectWorldMatrix = mul(ReflectionMatrix, ProjectionMatrix);
-	//ReflectProjectWorldMatrix = mul(WorldMatrix, ReflectProjectWorldMatrix);//why this order
+	matrix WorldReflectProject = mul(mul(WorldMatrix, ReflectionMatrix), ProjectionMatrix);
 
-	OUT.ReflectionPos = mul(IN.Position, ReflectProjectWorldMatrix);
+	OUT.ReflectionPos = mul(float4(IN.Position, 1), WorldReflectProject);
 
 	return OUT;
 
