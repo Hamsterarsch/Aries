@@ -59,8 +59,7 @@ FObjMesh::FObjMesh(const char *pObjPath, const FDeviceResources &DeviceResources
 		auto Elem1 = Loader.LoadedIndices.at(Index);
 		Loader.LoadedIndices.at(Index) = Loader.LoadedIndices.at(Index + 2);
 		Loader.LoadedIndices.at(Index + 2) = Elem1;
-
-		
+				
 	}
 
 	CD3D11_BUFFER_DESC VbDesc(static_cast<UINT>(m_VbNum * sizeof(VbType)), D3D11_BIND_VERTEX_BUFFER);
