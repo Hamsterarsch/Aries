@@ -8,7 +8,8 @@ struct FError
 		m_ErrorMessage{ ErrorMessage },
 		m_CodeFilePath{ CodeFilePath },
 		m_ErrorLineNumber{ ErrorLineNumber }
-	{};
+	{
+	};
 
 	FError(HRESULT ReturnValue, const char *ErrorMessage) :
 		FError(ReturnValue, ErrorMessage, "", 0)

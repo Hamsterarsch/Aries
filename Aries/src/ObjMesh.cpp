@@ -42,11 +42,17 @@ FObjMesh::FObjMesh(const char *pObjPath, const FDeviceResources &DeviceResources
 	}
 
 	objl::Loader Loader{};
-	Loader.LoadFile(FModulePath::MakeExeRelative(pObjPath));
+	Loader.LoadFile(pObjPath);
 
 	m_IbNum = Loader.LoadedIndices.size();
 	m_VbNum = Loader.LoadedVertices.size();
 	
+	if (Loader.LoadedVertices.size() == 0)
+	{
+		throw(FError{ -1, "Could not load mesh data from path.", __FILE__, __LINE__});
+
+	}
+
 	//Invert winding order
 	for (size_t Index{}; Index < m_IbNum; Index += 3)
 	{
