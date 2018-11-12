@@ -38,7 +38,7 @@ float4 main(Vert2Frag IN) : SV_TARGET
 		float3 LightPos = Lights[i].ToWorldMatrix[3].xyz;// mul(float4(0, 0, 0, 1), Lights[i].ToWorldMatrix).xyz;
 
 		float3 PixelToLight = LightPos - IN.WSPosition;
-		float3 LightForwardVec = normalize(mul(float4(0, 0, 1, 1), Lights[i].ToWorldMatrix).xyz - LightPos);
+		float3 LightForwardVec = normalize(mul(Lights[i].ToWorldMatrix, float4(0, 0, 1, 1)).xyz - LightPos);
 
 		float3 LightDir = normalize(lerp(PixelToLight, -LightForwardVec, bIsDirectional));
 

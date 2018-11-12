@@ -2,6 +2,7 @@
 #include <D3D11.h>
 #include <dxgi1_2.h>
 #include <wrl/client.h>
+#include "DepthBuffer.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -11,6 +12,9 @@ class FDeviceResources
 public:
 	FDeviceResources(HWND hWnd);
 	~FDeviceResources();
+
+	FDeviceResources(FDeviceResources &Other) = delete;
+	FDeviceResources &operator=(FDeviceResources &Rhs) = delete;
 
 	FDeviceResources(FDeviceResources &&Other) = default;
 	FDeviceResources &operator=(FDeviceResources &&Rhs) = default;
@@ -24,6 +28,8 @@ public:
 	ID3D11RenderTargetView* GetRenderTarget() const { return m_pBackBufferView.Get(); }
 	ID3D11DepthStencilView* GetDepthStencil() const { return m_pDepthStencilView.Get(); }
 	D3D_FEATURE_LEVEL		GetFeatureLevel() const { return m_DeviceFeatureLevel; }
+	FDepthBuffer *GetDepthPrePassBuffer() { return &m_DepthPrePassBuffer; }
+
 
 private:
 	void AcquireDevice(ComPtr<ID3D11Device> &out_pDevice, ComPtr<ID3D11DeviceContext> &out_pContext);
@@ -47,10 +53,11 @@ private:
 		const ComPtr<IDXGISwapChain> &pSwapChain, 
 		const ComPtr<ID3D11Device> &pDevice
 	);
-
+	
 	void FitViewportSize(ComPtr<ID3D11DeviceContext> &out_pDeviceContext, D3D11_VIEWPORT &out_Viewport, const D3D11_TEXTURE2D_DESC &BackbufferDesc);
 
 	void ReleaseBackbuffer();
+
 
 	//DeviceResc
 	ComPtr<ID3D11Device> m_pDevice;			
@@ -65,10 +72,12 @@ private:
 	ComPtr<ID3D11Texture2D>	m_pDepthStencil;
 	ComPtr<ID3D11DepthStencilView> m_pDepthStencilView;
 
+	FDepthBuffer m_DepthPrePassBuffer;
+
 	//Metadata
 	D3D_FEATURE_LEVEL m_DeviceFeatureLevel;			
 	D3D11_TEXTURE2D_DESC m_BackbufferDesc;		
-	D3D11_VIEWPORT m_Viewport;						
+	D3D11_VIEWPORT m_Viewport;					
 
 
 };

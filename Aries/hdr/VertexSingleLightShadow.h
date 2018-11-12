@@ -12,8 +12,6 @@ public:
 
 
 private:
-	virtual bool BindVertex(ID3D11DeviceContext &Context) override;
-
 	struct FLightbufferData
 	{
 		DirectX::XMMATRIX	m_View,

@@ -27,9 +27,9 @@ Vert2Frag main(App2Vert IN)
 {
 	Vert2Frag OUT;
 	
-	OUT.WSPosition = mul(float4(IN.Position, 1), World);
-	OUT.Position = mul(mul(float4(OUT.WSPosition, 1), View), Projection);
-	OUT.Normal = normalize( mul(IN.Normal, World) );
+	OUT.WSPosition = mul(World, float4(IN.Position, 1));
+	OUT.Position = mul(mul(Projection, View), float4(OUT.WSPosition, 1));
+	OUT.Normal = normalize( mul(World, IN.Normal) );
 	OUT.UV = IN.UV;
 
 	return OUT;

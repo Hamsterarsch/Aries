@@ -39,7 +39,7 @@ std::shared_ptr<IMesh> FActor::GetMeshPtr() const
 
 void FActor::Translate(const DirectX::XMVECTOR &Vector)
 {
-	m_ToWorldMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslationFromVector(Vector)) * m_ToWorldMatrix;
+	m_ToWorldMatrix = DirectX::XMMatrixTranslationFromVector(Vector) * m_ToWorldMatrix;
 	
 
 }
@@ -53,7 +53,7 @@ void FActor::Scale(float X, float Y, float Z)
 
 void FActor::Rotate(float Pitch, float Yaw, float Roll)
 {
-	m_ToWorldMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixRotationRollPitchYaw(Pitch, Yaw, Roll)) * m_ToWorldMatrix;
+	m_ToWorldMatrix = DirectX::XMMatrixRotationRollPitchYaw(Pitch, Yaw, Roll) * m_ToWorldMatrix;
 
 }
 

@@ -16,8 +16,6 @@ public:
 	);
 
 private:
-	virtual bool BindPixel(ID3D11DeviceContext &Context) override;
-
 	FTextureTarget2D m_TextureTarget;
 
 	

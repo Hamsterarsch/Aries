@@ -7,6 +7,8 @@
 #include "ShaderBase.h"
 #include "IActor.h"
 #include "Light.h"
+#include "RenderPass.h"
+
 
 using Microsoft::WRL::ComPtr;
 
@@ -40,5 +42,7 @@ private:
 	ComPtr<ID3D11Buffer> m_pConstantBuffer;
 	UINT m_FrameCount;
 	std::shared_ptr<class FDeviceResources> m_pDeviceResources;
+
+	FRenderPass m_DepthPrePass;
 
 };

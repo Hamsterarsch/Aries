@@ -90,6 +90,9 @@
     <ClInclude Include="hdr\PassMetadata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\DepthBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DeviceResources.cpp">
@@ -137,6 +140,9 @@
     <ClCompile Include="src\PixelSingleLightShadow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DepthBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\shaders\Vertex.hlsl">
@@ -155,6 +161,12 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\shaders\SimplePixel.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\shaders\DepthToTexture_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\shaders\DepthToTexture_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

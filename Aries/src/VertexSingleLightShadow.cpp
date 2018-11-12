@@ -18,6 +18,7 @@ FVertexSingleLightShadow::FVertexSingleLightShadow(ID3D11Device *pDevice, const 
 
 }
 
+/*
 bool FVertexSingleLightShadow::BindVertex(ID3D11DeviceContext &Context)
 {
 	Context.VSSetConstantBuffers(1, 1, m_pLightbuffer.GetAddressOf());
@@ -26,3 +27,4 @@ bool FVertexSingleLightShadow::BindVertex(ID3D11DeviceContext &Context)
 
 
 }
+*/

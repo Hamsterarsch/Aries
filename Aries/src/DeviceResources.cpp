@@ -4,9 +4,14 @@
 FDeviceResources::FDeviceResources(HWND hWnd)
 {
 	AcquireDevice(m_pDevice, m_pDeviceContext);
+
 	AcquireWindowResources(m_pSwapChain, m_pDevice, hWnd);
 	AcquireBackbuffer(m_pBackBuffer, m_pBackBufferView, m_BackbufferDesc, m_pSwapChain, m_pDevice);
 	AcquireDepthStencil(m_pDepthStencil, m_pDepthStencilView, m_BackbufferDesc, m_pSwapChain, m_pDevice);
+
+	RECT WindowRect{};
+	GetWindowRect(hWnd, &WindowRect);
+	//m_DepthPrePassBuffer = FDepthBuffer{ m_pDevice.Get(), static_cast<UINT>(WindowRect.right), static_cast<UINT>(WindowRect.bottom), DXGI_FORMAT_R32G32B32A32_FLOAT };
 
 	FitViewportSize(m_pDeviceContext, m_Viewport, m_BackbufferDesc);
 
@@ -48,6 +53,12 @@ void FDeviceResources::GoWindowed(const UINT Width, const UINT Height)
 
 	//Recreate the backbuffer with new properties
 	AcquireBackbuffer(m_pBackBuffer, m_pBackBufferView, m_BackbufferDesc, m_pSwapChain, m_pDevice);
+
+	if (!m_DepthPrePassBuffer.Resize(m_pDevice.Get(), Width, Height))
+	{
+		throw(FError{ -1, "Could not resize DepthPrePassTarget", __FILE__, __LINE__ });
+
+	}
 
 	
 }
@@ -149,7 +160,7 @@ void FDeviceResources::AcquireWindowResources(ComPtr<IDXGISwapChain> &out_pSwapC
 		throw(FError{ Hr, "Failed to query adapter for swap chain creation.", __FILE__, __LINE__ });
 
 	}
-
+	
 
 
 }

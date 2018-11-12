@@ -30,7 +30,7 @@ FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResou
 	m_LightBufferData[1].OuterAngle = 360;
 	m_LightBufferData[1].InnerAngle = 360;
 	m_LightBufferData[1].Range = 0;
-	m_LightBufferData[1].ToWorldMatrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(0,100,50) * DirectX::XMMatrixRotationAxis({ 1,0,0 }, 90));
+	m_LightBufferData[1].ToWorldMatrix = DirectX::XMMatrixTranslation(0,100,50) * DirectX::XMMatrixRotationAxis({ 1,0,0 }, 90);
 	m_LightBufferData[1].Intensity = 2;
 
 	auto d = ARRAYSIZE(m_LightBufferData) * sizeof(FLight);
@@ -61,6 +61,10 @@ FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResou
 
 
 
+	//m_DepthPrePass.m_pShaderCluster = std::make_shared<FShaderCluster>();
+	//m_DepthPrePass.m_pShaderCluster->m_pVertex = std::make_shared<FVertexBase>
+
+
 
 }
 
@@ -82,12 +86,10 @@ void FForwardRenderer::ClearRenderTargets()
 
 void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActorSet)
 {
-	auto WorldMatrixBase =		DirectX::XMMatrixTranspose
-								(
-								DirectX::XMMatrixRotationY( DirectX::XMConvertToRadians(static_cast<float>(++m_FrameCount)) )
-								 * DirectX::XMMatrixRotationX( DirectX::XMConvertToRadians(static_cast<float>(m_FrameCount)) )
-								 * DirectX::XMMatrixIdentity()
-								);
+	auto WorldMatrixBase =	DirectX::XMMatrixRotationY( DirectX::XMConvertToRadians(static_cast<float>(++m_FrameCount)) )
+							* DirectX::XMMatrixRotationX( DirectX::XMConvertToRadians(static_cast<float>(m_FrameCount)) )
+							* DirectX::XMMatrixIdentity();
+								
 
 	if (m_FrameCount == MAXUINT)
 	{
@@ -105,6 +107,27 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 	//b0 always is the world/view/projection buffer (todo: could only be called once)
 	pContext->VSSetConstantBuffers(0, 1, m_pConstantBuffer.GetAddressOf());
 	
+	//DepthPrepass
+	
+	auto *pDepthPrePassBuffer = m_pDeviceResources->GetDepthPrePassBuffer();
+	ID3D11RenderTargetView *NullView = nullptr;
+	pContext->OMSetRenderTargets(1, &NullView, pDepthPrePassBuffer->m_pViewDepth.Get());
+	
+	/*
+	for (auto &&Actor : vActorSet)
+	{
+		if (!Actor->GetMesh()->Bind())
+		{
+			continue;
+
+		}
+
+		
+
+
+	}
+	*/
+
 	//For every actor
 	for (auto &&Actor : vActorSet)
 	{
@@ -120,6 +143,7 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 			1,
 			&pRenderTarget,
 			pDepthStencil
+
 		);
 
 		m_ConstantBufferData.World = Actor->GetToWorldMatrix();// *WorldMatrixBase;
@@ -199,9 +223,9 @@ void FForwardRenderer::CreateViewAndPerspective()
 	DirectX::XMVECTOR Up =  DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.f);
 
 	//DirectXMath uses row major matrices, we want column major
-	m_ConstantBufferData.View = DirectX::XMMatrixTranspose(DirectX::XMMatrixLookAtRH(Eye, At, Up));
+	m_ConstantBufferData.View = DirectX::XMMatrixLookAtRH(Eye, At, Up);
 
-	m_ConstantBufferData.Projection = DirectX::XMMatrixTranspose(DirectX::XMMatrixPerspectiveFovRH(DirectX::XMConvertToRadians(70.f), m_pDeviceResources->GetAspectRatio(), .01f, 100.f));
+	m_ConstantBufferData.Projection = DirectX::XMMatrixPerspectiveFovRH(DirectX::XMConvertToRadians(70.f), m_pDeviceResources->GetAspectRatio(), .01f, 100.f);
 	
 	//m_ConstantBufferData.World = DirectX::XMMatrixIdentity();
 

@@ -39,6 +39,7 @@ FPixelSingleLightShadow::FPixelSingleLightShadow(ID3D11Device *pDevice, UINT Sha
 
 }
 
+/*
 bool FPixelSingleLightShadow::BindPixel(ID3D11DeviceContext &Context)
 {
 	Context.PSSetSamplers(0, 1, m_pSamplerStateClamp.GetAddressOf());
@@ -46,4 +47,4 @@ bool FPixelSingleLightShadow::BindPixel(ID3D11DeviceContext &Context)
 	return true;
 
 
-}
+}*/
