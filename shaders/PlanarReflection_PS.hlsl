@@ -13,8 +13,8 @@ struct VertToPixel
 float4 main(VertToPixel IN) : SV_TARGET
 {
 	float2 ReflectUv;
-	ReflectUv.x = (IN.ReflectionPos.x / IN.ReflectionPos.w) / 2.f + .5f;
-	ReflectUv.y = (-IN.ReflectionPos.y / IN.ReflectionPos.w) / 2.f + .5f;//y is inverted because the geometry depicted by the reflection is 'upside down'
+	ReflectUv.x = IN.ReflectionPos.x / IN.ReflectionPos.w / 2.f + .5f;
+	ReflectUv.y = -IN.ReflectionPos.y / IN.ReflectionPos.w / 2.f + .5f;//y is inverted because the geometry depicted by the reflection is 'upside down'
 
 	float4 ReflectionColor = ReflectionTexture.Sample(SampleType, ReflectUv) * float4( .33, .33, .33, 1);
 

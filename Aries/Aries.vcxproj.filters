@@ -169,5 +169,8 @@
     <FxCompile Include="..\shaders\DepthToTexture_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="..\shaders\ReflectionToTexture_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

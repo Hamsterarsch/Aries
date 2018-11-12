@@ -51,6 +51,7 @@ public:
 
 		if (FAILED(Hr))
 		{
+			//todo: if does not work if the error code is ERROR_PATH_NOT_FOUND
 			if (Hr == HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND))
 			{
 				throw(FError{ Hr, "Could not open shader file.", __FILE__, __LINE__ });
