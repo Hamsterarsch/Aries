@@ -8,6 +8,7 @@ using Microsoft::WRL::ComPtr;
 class FTextureTarget2D final
 {
 public:
+	FTextureTarget2D() = default;
 	FTextureTarget2D(ID3D11Device &Device, float TextureWidth, float TextureHeight, DXGI_FORMAT Format = DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	ID3D11ShaderResourceView *const *GetViewResource() const noexcept;

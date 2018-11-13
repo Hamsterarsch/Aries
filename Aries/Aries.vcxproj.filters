@@ -93,6 +93,9 @@
     <ClInclude Include="hdr\DepthBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\dx11\DX11ConstantBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DeviceResources.cpp">
@@ -169,7 +172,13 @@
     <FxCompile Include="..\shaders\DepthToTexture_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="..\shaders\ReflectionToTexture_VS.hlsl">
+    <FxCompile Include="..\shaders\ViewToTexture_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\shaders\SingleLightMapping_VS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\shaders\SingleLightMapping_PS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

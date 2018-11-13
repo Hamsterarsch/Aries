@@ -4,13 +4,23 @@
 #include <DirectXMath.h>
 #include <memory>
 #include <vector>
-#include "ShaderBase.h"
+#include "PixelBase.h"
+#include "VertexBase.h"
 #include "IActor.h"
 #include "Light.h"
 #include "RenderPass.h"
+#include "hdr/dx11/DX11ConstantBuffer.h"
 
 
 using Microsoft::WRL::ComPtr;
+
+__declspec(align(16))
+struct FSingleShadowMap
+{
+	DirectX::XMMATRIX View,
+					  Projection;
+
+};
 
 class FForwardRenderer
 {
@@ -19,6 +29,9 @@ public:
 	void Render(const std::vector<std::unique_ptr<IActor>> &vActorSet);
 	DirectX::XMMATRIX GetReflectMatrix() { return DirectX::XMMatrixScaling(1, -1, 1) * m_ConstantBufferData.View; }
 	DirectX::XMMATRIX GetViewMatrix() { return m_ConstantBufferData.View; }
+
+	FDX11ConstantBuffer<FSingleShadowMap> m_SingleLightView;
+
 
 private:
 	void CreateViewAndPerspective();

@@ -11,10 +11,13 @@ FDeviceResources::FDeviceResources(HWND hWnd)
 
 	RECT WindowRect{};
 	GetWindowRect(hWnd, &WindowRect);
-	//m_DepthPrePassBuffer = FDepthBuffer{ m_pDevice.Get(), static_cast<UINT>(WindowRect.right), static_cast<UINT>(WindowRect.bottom), DXGI_FORMAT_R32G32B32A32_FLOAT };
+	
+	
 
 	FitViewportSize(m_pDeviceContext, m_Viewport, m_BackbufferDesc);
 
+	m_DepthPreTarget = FTextureTarget2D{ *m_pDevice.Get(), static_cast<float>(m_BackbufferDesc.Width), static_cast<float>(m_BackbufferDesc.Height) };
+	//add resizeablility
 
 }
 
@@ -54,11 +57,14 @@ void FDeviceResources::GoWindowed(const UINT Width, const UINT Height)
 	//Recreate the backbuffer with new properties
 	AcquireBackbuffer(m_pBackBuffer, m_pBackBufferView, m_BackbufferDesc, m_pSwapChain, m_pDevice);
 
+	/*
 	if (!m_DepthPrePassBuffer.Resize(m_pDevice.Get(), Width, Height))
 	{
 		throw(FError{ -1, "Could not resize DepthPrePassTarget", __FILE__, __LINE__ });
 
 	}
+	//todo: reimpl for target2d
+	*/
 
 	
 }

@@ -14,7 +14,7 @@ FTextureTarget2D::FTextureTarget2D(ID3D11Device &Device, const float TextureWidt
 	TextureDesc.Usage = D3D11_USAGE_DEFAULT;
 	TextureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 
-	Device.CreateTexture2D(&TextureDesc, NULL, m_pTexture.GetAddressOf());
+	auto Hr = Device.CreateTexture2D(&TextureDesc, NULL, m_pTexture.GetAddressOf());
 	//err check
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC ResourceViewDesc{};
@@ -22,14 +22,14 @@ FTextureTarget2D::FTextureTarget2D(ID3D11Device &Device, const float TextureWidt
 	ResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	ResourceViewDesc.Texture2D.MipLevels = TextureDesc.MipLevels;
 
-	Device.CreateShaderResourceView(m_pTexture.Get(), &ResourceViewDesc, m_pResourceView.GetAddressOf());
+	Hr = Device.CreateShaderResourceView(m_pTexture.Get(), &ResourceViewDesc, m_pResourceView.GetAddressOf());
 	//err check
 
 	D3D11_RENDER_TARGET_VIEW_DESC RenderViewDesc{};
 	RenderViewDesc.Format = TextureDesc.Format;
 	RenderViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 
-	Device.CreateRenderTargetView(m_pTexture.Get(), &RenderViewDesc, m_pRenderView.GetAddressOf());
+	Hr = Device.CreateRenderTargetView(m_pTexture.Get(), &RenderViewDesc, m_pRenderView.GetAddressOf());
 	//err check
 
 

@@ -2,7 +2,7 @@
 #include <D3D11.h>
 #include <dxgi1_2.h>
 #include <wrl/client.h>
-#include "DepthBuffer.h"
+#include "TextureTarget2D.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -28,7 +28,7 @@ public:
 	ID3D11RenderTargetView* GetRenderTarget() const { return m_pBackBufferView.Get(); }
 	ID3D11DepthStencilView* GetDepthStencil() const { return m_pDepthStencilView.Get(); }
 	D3D_FEATURE_LEVEL		GetFeatureLevel() const { return m_DeviceFeatureLevel; }
-	FDepthBuffer *GetDepthPrePassBuffer() { return &m_DepthPrePassBuffer; }
+	FTextureTarget2D *GetDepthPrePassBuffer() { return &m_DepthPreTarget; }
 
 
 private:
@@ -72,7 +72,7 @@ private:
 	ComPtr<ID3D11Texture2D>	m_pDepthStencil;
 	ComPtr<ID3D11DepthStencilView> m_pDepthStencilView;
 
-	FDepthBuffer m_DepthPrePassBuffer;
+	FTextureTarget2D m_DepthPreTarget;
 
 	//Metadata
 	D3D_FEATURE_LEVEL m_DeviceFeatureLevel;			

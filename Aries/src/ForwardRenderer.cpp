@@ -58,12 +58,24 @@ FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResou
 		0,
 		0
 	);
+	
+	
+	auto Vertex = std::make_shared<FVertexBase>( m_pDeviceResources->GetDevice(), FModulePath::MakeExeRelative(L"../../shaders/DepthToTexture_VS.hlsl").data() );
+	auto Pixel = std::make_shared<FPixelBase>( m_pDeviceResources->GetDevice(), FModulePath::MakeExeRelative(L"../../shaders/DepthToTexture_PS.hlsl").data() );
+		
+	m_DepthPrePass.m_pShaderCluster = std::make_shared<FShaderCluster>();
+	m_DepthPrePass.m_pShaderCluster->m_pVertex = std::move(Vertex);
+	m_DepthPrePass.m_pShaderCluster->m_pPixel = std::move(Pixel);
+	
+	FSingleShadowMap ShadowMapLightBuffer;
+	ShadowMapLightBuffer.View = DirectX::XMMatrixLookAtRH({ 3, .75, 0 }, { 0,.75,0 }, { 0,1,0 });
+	ShadowMapLightBuffer.Projection = DirectX::XMMatrixPerspectiveFovRH(DirectX::XMConvertToRadians(70), m_pDeviceResources->GetAspectRatio(), .01f, 100.f);
 
+	if (!m_SingleLightView.Initialize(*m_pDeviceResources->GetDevice(), &ShadowMapLightBuffer))
+	{
+		throw(-1);
 
-
-	//m_DepthPrePass.m_pShaderCluster = std::make_shared<FShaderCluster>();
-	//m_DepthPrePass.m_pShaderCluster->m_pVertex = std::make_shared<FVertexBase>
-
+	}
 
 
 }
@@ -102,31 +114,57 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 	ID3D11DepthStencilView *pDepthStencil = m_pDeviceResources->GetDepthStencil();
 
 	//Clear target each frame
+	ID3D11RenderTargetView * Null = nullptr;
+	pContext->OMSetRenderTargets(1, &Null, nullptr);
 	ClearRenderTargets();
 
-	//b0 always is the world/view/projection buffer (todo: could only be called once)
 	pContext->VSSetConstantBuffers(0, 1, m_pConstantBuffer.GetAddressOf());
+	//b0 always is the world/view/projection buffer (todo: could only be called once)
+	pContext->VSSetConstantBuffers(1, 1, m_SingleLightView.GetAddressOf());
 	
-	//DepthPrepass
+	//DepthPrepass	
+	auto test = m_pDeviceResources->GetDepthPrePassBuffer();
+	auto testtest = test->GetViewTarget();
+	pContext->OMSetRenderTargets(1, testtest, pDepthStencil);
+	float DepthClearColor[4] = { 1,1,1,1 };
+	pContext->ClearRenderTargetView(m_pDeviceResources->GetDepthPrePassBuffer()->GetViewTargetCom().Get(), DepthClearColor);
 	
-	auto *pDepthPrePassBuffer = m_pDeviceResources->GetDepthPrePassBuffer();
-	ID3D11RenderTargetView *NullView = nullptr;
-	pContext->OMSetRenderTargets(1, &NullView, pDepthPrePassBuffer->m_pViewDepth.Get());
-	
-	/*
+	vActorSet.at(0)->Rotate(0.01, 0.01, 0.02);
+
+	m_DepthPrePass.Bind(*pContext);
+
 	for (auto &&Actor : vActorSet)
 	{
-		if (!Actor->GetMesh()->Bind())
+		if (!Actor->GetMesh()->Bind(*pContext))
 		{
 			continue;
 
 		}
 
-		
+		m_ConstantBufferData.World = Actor->GetToWorldMatrix();// *WorldMatrixBase;
+		pContext->UpdateSubresource
+		(
+			m_pConstantBuffer.Get(),
+			0,
+			nullptr,
+			&m_ConstantBufferData,
+			0,
+			0
+		);
+				
+		pContext->DrawIndexed
+		(
+			static_cast<UINT>(Actor->GetMesh()->GetIbSize()),
+			0,
+			0
+
+		);
 
 
 	}
-	*/
+
+	m_DepthPrePass.ReceiveOnFinish(*pContext);
+	ClearRenderTargets();
 
 	//For every actor
 	for (auto &&Actor : vActorSet)

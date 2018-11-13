@@ -6,6 +6,13 @@ cbuffer MatrixBuffer : register(b0)
 
 }
 
+cbuffer MatrixOverrides : register(b1)
+{
+	matrix ViewOverride;
+	matrix ProjectionOverride;
+
+}
+
 struct App2Vert
 {
 	float3 Position : POSITION;
@@ -27,7 +34,7 @@ VertToPixel main(App2Vert IN)
 {
 	VertToPixel OUT;
 
-	OUT.Position = mul(mul(mul(Projection, View), World), float4(IN.Position, 1));
+	OUT.Position = mul(mul(mul(ProjectionOverride, ViewOverride), World), float4(IN.Position, 1));
 	OUT.DepthPosition = OUT.Position;
 	
 	return OUT;
