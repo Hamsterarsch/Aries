@@ -49,7 +49,7 @@ private:
 	} ConstantBufferStruct;
 	static_assert((sizeof(ConstantBufferStruct) % 16) == 0, "Constant buffer size must be 16 byte aligned");
 
-	FLight m_LightBufferData[2];
+	FLight m_LightBufferData[1];
 	ComPtr<ID3D11Buffer> m_pLightBuffer;
 	ConstantBufferStruct m_ConstantBufferData;
 	ComPtr<ID3D11Buffer> m_pConstantBuffer;

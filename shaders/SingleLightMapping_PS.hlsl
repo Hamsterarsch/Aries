@@ -22,7 +22,7 @@ float4 main(Vert2Pixel IN) : SV_TARGET
 
 	//
 	float OccludersDepth = DepthTexture.Sample(SampleClamped, ProjectedUv).r;
-	float FragmentDepthFromMappedView = (IN.LightViewPos.z / IN.LightViewPos.w) -0.001f;
+	float FragmentDepthFromMappedView = (IN.LightViewPos.z / IN.LightViewPos.w) -0.00001f;
 	
 	bool bIsUnshadowed = FragmentDepthFromMappedView < OccludersDepth;
 

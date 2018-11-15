@@ -16,7 +16,7 @@ void InvertWindingOrder(std::vector<T> &out_ToSwap)
 		auto Elem1 = out_ToSwap.at(Index);
 		out_ToSwap.at(Index) = out_ToSwap.at(Index + 2);
 		out_ToSwap.at(Index + 2) = Elem1;
-
+		
 
 	}
 
@@ -26,12 +26,12 @@ void InvertWindingOrder(std::vector<T> &out_ToSwap)
 FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResources) :
 	m_pDeviceResources{ DeviceResources }
 {
-	m_LightBufferData[1].Color = { 1, 0, 0 };
-	m_LightBufferData[1].OuterAngle = 360;
-	m_LightBufferData[1].InnerAngle = 360;
-	m_LightBufferData[1].Range = 0;
-	m_LightBufferData[1].ToWorldMatrix = DirectX::XMMatrixTranslation(0,100,50) * DirectX::XMMatrixRotationAxis({ 1,0,0 }, 90);
-	m_LightBufferData[1].Intensity = 2;
+	m_LightBufferData[0].Color = { 1, 0, 0 };
+	m_LightBufferData[0].OuterAngle = 90;
+	m_LightBufferData[0].InnerAngle = 80;
+	m_LightBufferData[0].Range = 3.25;
+	m_LightBufferData[0].ToWorldMatrix = DirectX::XMMatrixTranslation(0, .75, 0) * DirectX::XMMatrixRotationAxis({ 0,1,0 }, DirectX::XMConvertToRadians(-90));
+	m_LightBufferData[0].Intensity = 4;
 
 	auto d = ARRAYSIZE(m_LightBufferData) * sizeof(FLight);
 	CD3D11_BUFFER_DESC LbDesc(d, D3D11_BIND_CONSTANT_BUFFER);
