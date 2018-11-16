@@ -69,7 +69,7 @@ FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResou
 	
 	FSingleShadowMap ShadowMapLightBuffer;
 	ShadowMapLightBuffer.View = DirectX::XMMatrixLookAtRH({ 3, .75, 0 }, { 0,.75,0 }, { 0,1,0 });
-	ShadowMapLightBuffer.Projection = DirectX::XMMatrixPerspectiveFovRH(DirectX::XMConvertToRadians(70), m_pDeviceResources->GetAspectRatio(), .01f, 100.f);
+	ShadowMapLightBuffer.Projection = DirectX::XMMatrixPerspectiveFovRH(DirectX::XMConvertToRadians(120), m_pDeviceResources->GetAspectRatio(), .01f, 100.f);
 
 	if (!m_SingleLightView.Initialize(*m_pDeviceResources->GetDevice(), &ShadowMapLightBuffer))
 	{

@@ -220,7 +220,7 @@ void FDeviceResources::AcquireDepthStencil
 		throw(FError{ -1, "Failed to create depth stencil buffer.", __FILE__, __LINE__ });
 
 	}
-	
+
 
 }
 
@@ -233,7 +233,7 @@ void FDeviceResources::ReleaseBackbuffer()
 	m_pDepthStencil.Reset();
 
 	m_pDeviceContext->Flush();
-	   	
+
 
 }
 
