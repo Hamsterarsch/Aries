@@ -24,28 +24,21 @@ void InvertWindingOrder(std::vector<T> &out_ToSwap)
 }
 
 FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResources) :
-	m_pDeviceResources{ DeviceResources }
+	m_pDeviceResources{ DeviceResources },
+	m_ShadowMapPool512{ *DeviceResources->GetDevice(), 512, 512, MAX_LIGHTMAPS },
+	m_ShadowmapDepthBuffer{ DeviceResources->GetDevice(), 512, 512, DXGI_FORMAT_D32_FLOAT }
 {
-	m_LightBufferData[0].Color = { 1, 0, 0 };
-	m_LightBufferData[0].OuterAngle = 90;
-	m_LightBufferData[0].InnerAngle = 80;
-	m_LightBufferData[0].Range = 3.25;
-	m_LightBufferData[0].ToWorldMatrix = DirectX::XMMatrixTranslation(0, .75, 0) * DirectX::XMMatrixRotationAxis({ 0,1,0 }, DirectX::XMConvertToRadians(-90));
-	m_LightBufferData[0].Intensity = 4;
+	auto ByteWidth = sizeof(decltype(m_vLightBufferData)::value_type);
+	CD3D11_BUFFER_DESC Desc{ ByteWidth, D3D11_BIND_CONSTANT_BUFFER };
 
-	auto d = ARRAYSIZE(m_LightBufferData) * sizeof(FLight);
-	CD3D11_BUFFER_DESC LbDesc(d, D3D11_BIND_CONSTANT_BUFFER);
+	auto Hr = m_pDeviceResources->GetDevice()->CreateBuffer(&Desc, nullptr, m_pLightBuffer.GetAddressOf());
+	if (FAILED(Hr))
+	{
+		throw(FError{ Hr, "Could not create light buffer", __FILE__, __LINE__ });
+
+	}
+
 	
-
-	D3D11_SUBRESOURCE_DATA LbResc{};
-	LbResc.pSysMem = m_LightBufferData;
-	
-
-	auto res = m_pDeviceResources->GetDevice()->CreateBuffer(&LbDesc, &LbResc, &m_pLightBuffer);
-
-	m_pDeviceResources->GetDeviceContext()->PSSetConstantBuffers(0, 1, m_pLightBuffer.GetAddressOf());
-
-
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
 
@@ -63,20 +56,10 @@ FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResou
 	auto Vertex = std::make_shared<FVertexBase>( m_pDeviceResources->GetDevice(), FModulePath::MakeExeRelative(L"../../shaders/DepthToTexture_VS.hlsl").data() );
 	auto Pixel = std::make_shared<FPixelBase>( m_pDeviceResources->GetDevice(), FModulePath::MakeExeRelative(L"../../shaders/DepthToTexture_PS.hlsl").data() );
 		
-	m_DepthPrePass.m_pShaderCluster = std::make_shared<FShaderCluster>();
-	m_DepthPrePass.m_pShaderCluster->m_pVertex = std::move(Vertex);
-	m_DepthPrePass.m_pShaderCluster->m_pPixel = std::move(Pixel);
+	m_LightmapPass.m_pShaderCluster = std::make_shared<FShaderCluster>();
+	m_LightmapPass.m_pShaderCluster->m_pVertex = std::move(Vertex);
+	m_LightmapPass.m_pShaderCluster->m_pPixel = std::move(Pixel);
 	
-	FSingleShadowMap ShadowMapLightBuffer;
-	ShadowMapLightBuffer.View = DirectX::XMMatrixLookAtRH({ 3, .75, 0 }, { 0,.75,0 }, { 0,1,0 });
-	ShadowMapLightBuffer.Projection = DirectX::XMMatrixPerspectiveFovRH(DirectX::XMConvertToRadians(120), m_pDeviceResources->GetAspectRatio(), .01f, 100.f);
-
-	if (!m_SingleLightView.Initialize(*m_pDeviceResources->GetDevice(), &ShadowMapLightBuffer))
-	{
-		throw(-1);
-
-	}
-
 
 }
 
@@ -118,55 +101,63 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 	pContext->OMSetRenderTargets(1, &Null, nullptr);
 	ClearRenderTargets();
 
-	pContext->VSSetConstantBuffers(0, 1, m_pConstantBuffer.GetAddressOf());
 	//b0 always is the world/view/projection buffer (todo: could only be called once)
-	pContext->VSSetConstantBuffers(1, 1, m_SingleLightView.GetAddressOf());
+	pContext->VSSetConstantBuffers(0, 1, m_pConstantBuffer.GetAddressOf());
+
+
+	//LightmapPass
+	m_LightmapPass.Bind(*pContext);
+	m_LightmapPass.ReceiveOnBegin(*pContext);
 	
-	//DepthPrepass	
-	auto test = m_pDeviceResources->GetDepthPrePassBuffer();
-	auto testtest = test->GetViewTarget();
-	pContext->OMSetRenderTargets(1, testtest, pDepthStencil);
 	float DepthClearColor[4] = { 1,1,1,1 };
-	pContext->ClearRenderTargetView(m_pDeviceResources->GetDepthPrePassBuffer()->GetViewTargetCom().Get(), DepthClearColor);
-	
-	vActorSet.at(0)->Rotate(0.01, 0.01, 0.02);
+	pContext->ClearDepthStencilView(m_ShadowmapDepthBuffer.m_pViewDepth.Get(), D3D11_CLEAR_DEPTH, 1, 0);
+	pContext->ClearRenderTargetView(*m_ShadowMapPool512.GetViewTarget(), DepthClearColor);
 
-	m_DepthPrePass.Bind(*pContext);
+	pContext->OMSetRenderTargets(1, m_ShadowMapPool512.GetViewTarget(), m_ShadowmapDepthBuffer.m_pViewDepth.Get());
+	pContext->VSSetConstantBuffers(1, 1, m_pLightBuffer.GetAddressOf());
 
-	for (auto &&Actor : vActorSet)
+
+	for (auto &&Light : m_vLightBufferData)
 	{
-		if (!Actor->GetMesh()->Bind(*pContext))
+		m_pDeviceResources->GetDeviceContext()->UpdateSubresource(m_pLightBuffer.Get(), 0, nullptr, &Light, 0, 0);
+
+		for (auto &&Actor : vActorSet)
 		{
-			continue;
+			if (!Actor->GetMesh()->Bind(*pContext))
+			{
+				continue;
+
+			}
+
+			m_ConstantBufferData.World = Actor->GetToWorldMatrix();// *WorldMatrixBase;
+			pContext->UpdateSubresource
+			(
+				m_pConstantBuffer.Get(),
+				0,
+				nullptr,
+				&m_ConstantBufferData,
+				0,
+				0
+			);
+
+			pContext->DrawIndexed
+			(
+				static_cast<UINT>(Actor->GetMesh()->GetIbSize()),
+				0,
+				0
+
+			);
+
 
 		}
-
-		m_ConstantBufferData.World = Actor->GetToWorldMatrix();// *WorldMatrixBase;
-		pContext->UpdateSubresource
-		(
-			m_pConstantBuffer.Get(),
-			0,
-			nullptr,
-			&m_ConstantBufferData,
-			0,
-			0
-		);
-				
-		pContext->DrawIndexed
-		(
-			static_cast<UINT>(Actor->GetMesh()->GetIbSize()),
-			0,
-			0
-
-		);
-
-
+	
 	}
-
-	m_DepthPrePass.ReceiveOnFinish(*pContext);
-	ClearRenderTargets();
+	
+	m_LightmapPass.ReceiveOnFinish(*pContext);
+	//ClearRenderTargets();
 
 	//For every actor
+	/*DISABLED FOR LIGHTMAP DEBUG
 	for (auto &&Actor : vActorSet)
 	{
 		if (!Actor->GetMesh()->Bind(*pContext))
@@ -217,33 +208,9 @@ void FForwardRenderer::Render(const  std::vector<std::unique_ptr<IActor>> &vActo
 
 		}
 
-		/*
-		if (Actor->PrepareForRender(*pContext))
-		{
-
-			m_ConstantBufferData.World = Actor->GetToWorldMatrix();// *WorldMatrixBase;
-
-			pContext->UpdateSubresource
-			(
-				m_pConstantBuffer.Get(),
-				0,
-				nullptr,
-				&m_ConstantBufferData,
-				0,
-				0
-			);
-
-			pContext->DrawIndexed
-			(
-				static_cast<UINT>(Actor->GetMesh()->GetIbSize()),
-				0,
-				0
-			);
-
-		}
-		*/
 
 	}
+	*/
 
 	
 }

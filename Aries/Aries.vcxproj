@@ -162,6 +162,7 @@
     <ClInclude Include="hdr\Actor.h" />
     <ClInclude Include="hdr\DepthBuffer.h" />
     <ClInclude Include="hdr\DeviceResources.h" />
+    <ClInclude Include="hdr\DX11Texture3D.h" />
     <ClInclude Include="hdr\dx11\DX11ConstantBuffer.h" />
     <ClInclude Include="hdr\Error.h" />
     <ClInclude Include="hdr\ForwardRenderer.h" />

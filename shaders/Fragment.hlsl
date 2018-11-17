@@ -1,11 +1,14 @@
 struct Light
 {
 	matrix ToWorldMatrix;
+	matrix ProjectionMatrix;
 	float3 Color;
 	float Range;
 	float InnerAngle;
 	float OuterAngle;
 	float Intensity;
+	unsigned int LightMapStartIndex;
+	unsigned int LightMapStartChannel;
 
 };
 

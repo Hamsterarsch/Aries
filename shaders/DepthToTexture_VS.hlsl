@@ -6,10 +6,23 @@ cbuffer MatrixBuffer : register(b0)
 
 }
 
+struct Light
+{
+	matrix ToWorldMatrix;
+	matrix ProjectionMatrix;
+	float3 Color;
+	float Range;
+	float InnerAngle;
+	float OuterAngle;
+	float Intensity;
+	unsigned int LightMapStartIndex;
+	unsigned int LightMapStartChannel;
+
+};
+
 cbuffer MatrixOverrides : register(b1)
 {
-	matrix ViewOverride;
-	matrix ProjectionOverride;
+	Light LightInfo;
 
 }
 
@@ -34,7 +47,7 @@ VertToPixel main(App2Vert IN)
 {
 	VertToPixel OUT;
 
-	OUT.Position = mul(mul(mul(ProjectionOverride, ViewOverride), World), float4(IN.Position, 1));
+	OUT.Position = mul(mul(mul(LightInfo.ProjectionMatrix, LightInfo.ToWorldMatrix), World), float4(IN.Position, 1));
 	OUT.DepthPosition = OUT.Position;
 	
 	return OUT;
