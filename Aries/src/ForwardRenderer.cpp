@@ -29,7 +29,7 @@ FForwardRenderer::FForwardRenderer(std::shared_ptr<FDeviceResources> DeviceResou
 	m_ShadowmapDepthBuffer{ DeviceResources->GetDevice(), 512, 512, DXGI_FORMAT_D32_FLOAT }
 {
 	auto ByteWidth = sizeof(decltype(m_vLightBufferData)::value_type);
-	CD3D11_BUFFER_DESC Desc{ ByteWidth, D3D11_BIND_CONSTANT_BUFFER };
+	CD3D11_BUFFER_DESC Desc{ static_cast<UINT>(ByteWidth), D3D11_BIND_CONSTANT_BUFFER };
 
 	auto Hr = m_pDeviceResources->GetDevice()->CreateBuffer(&Desc, nullptr, m_pLightBuffer.GetAddressOf());
 	if (FAILED(Hr))

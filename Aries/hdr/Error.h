@@ -23,3 +23,9 @@ struct FError
 
 
 };
+
+#define ARI_THROW_ERROR(Code, Msg) throw(FError{Code, Msg, __FILE__, __LINE__})
+#define ARI_ASSERT(Expr, Msg) if(!(Expr)){ ARI_THROW_ERROR(-1, Msg); }
+#define ARI_THROW_IF_FAILED(Hresult, Msg) ARI_ASSERT(SUCCEEDED(Hresult), Msg)
+
+

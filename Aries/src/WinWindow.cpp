@@ -1,21 +1,29 @@
 #include "Error.h"
 #include "WinWindow.h"
+#include "dx12/DX12Factory.h"
+#include "dx12/DX12SurfacePolicy.h"
 
-FWinWindow::FWinWindow(HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, const UINT Width, const UINT Height, LPCWSTR WindowName, HWND Parent) :
+FWinWindow::FWinWindow(IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, const UINT Width, const UINT Height, LPCWSTR WindowName, HWND Parent) :
 	m_hInstance{ hInstance },
 	m_WndClassName{ WndClassName }
 {
 	RegisterWindowClass(hInstance, pfWndProc, m_WndClassName);
 	
 	m_hWnd = CreateWindowEx(0, m_WndClassName, WindowName, WS_OVERLAPPEDWINDOW, 0, 0, Width, Height, NULL, NULL, hInstance, NULL);
-	if (!m_hWnd)
-	{
-		throw(FError{ -1, "Failed to create window.", __FILE__, __LINE__ });
-		
-	}	
+	ARI_ASSERT(m_hWnd, "Failed to create window");
 	//UpdateWindow(m_hWnd);
 
+	switch (pFactory->GetApiType())
+	{
+	case EAPIType::DX12:
+		m_pSurfacePolicy = std::make_unique<FDX12SurfacePolicy>(static_cast<FDX12Factory *>(pFactory), m_hWnd, Width, Height, true, 2);
+		break;
+	default:
+		ARI_THROW_ERROR(-1, "FWinWindow:: api not implemented.");
+		
+	}
 
+		
 }
 
 FWinWindow::~FWinWindow()
@@ -34,12 +42,7 @@ void FWinWindow::RegisterWindowClass(const HINSTANCE hInstance, WNDPROC pfWndPro
 	Wcex.lpfnWndProc = pfWndProc;
 	Wcex.lpszClassName = WndClassName;
 
-
-	if (!RegisterClassEx(&Wcex))
-	{
-		throw(FError{ -1, "Could not register window class.", __FILE__, __LINE__ });
-		
-	}
+	ARI_ASSERT(RegisterClassEx(&Wcex), "Could not register window class.");
 
 
 }

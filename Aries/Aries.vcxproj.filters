@@ -16,6 +16,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{489678df-086e-4df4-bbc6-216e85bff1ed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{a04cb5b7-8ad7-4846-8e95-88b850a9fac9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hdr\DeviceResources.h">
@@ -99,6 +102,33 @@
     <ClInclude Include="hdr\DX11Texture3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\dx11\DX11Factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IPipelineState.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx11\DX11PipelineState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IGAPIFactory.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12Factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12DescriptorHeap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IWindow.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\ISurfacePolicy.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DeviceResources.cpp">
@@ -147,6 +177,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DepthBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx11\DX11Factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx11\DX11PipelineState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12Factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12DescriptorHeap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

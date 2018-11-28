@@ -113,7 +113,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>D3D11.lib;DxGi.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D3D11.lib;DxGi.lib;D3DCompiler.lib;D3D12.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,7 +155,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>D3D11.lib;DxGi.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D3D11.lib;DxGi.lib;D3DCompiler.lib;D3D12.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -164,9 +164,18 @@
     <ClInclude Include="hdr\DeviceResources.h" />
     <ClInclude Include="hdr\DX11Texture3D.h" />
     <ClInclude Include="hdr\dx11\DX11ConstantBuffer.h" />
+    <ClInclude Include="hdr\dx11\DX11Factory.h" />
+    <ClInclude Include="hdr\dx11\DX11PipelineState.h" />
+    <ClInclude Include="hdr\dx12\DX12DescriptorHeap.h" />
+    <ClInclude Include="hdr\dx12\DX12Factory.h" />
+    <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h" />
     <ClInclude Include="hdr\Error.h" />
     <ClInclude Include="hdr\ForwardRenderer.h" />
     <ClInclude Include="hdr\IContextBinding.h" />
+    <ClInclude Include="hdr\IGAPIFactory.h" />
+    <ClInclude Include="hdr\IPipelineState.h" />
+    <ClInclude Include="hdr\ISurfacePolicy.h" />
+    <ClInclude Include="hdr\IWindow.h" />
     <ClInclude Include="hdr\PassMetadata.h" />
     <ClInclude Include="hdr\PixelBase.h" />
     <ClInclude Include="hdr\IMesh.h" />
@@ -195,6 +204,11 @@
     <ClCompile Include="src\Aries.cpp" />
     <ClCompile Include="src\DepthBuffer.cpp" />
     <ClCompile Include="src\DeviceResources.cpp" />
+    <ClCompile Include="src\dx11\DX11Factory.cpp" />
+    <ClCompile Include="src\dx11\DX11PipelineState.cpp" />
+    <ClCompile Include="src\dx12\DX12DescriptorHeap.cpp" />
+    <ClCompile Include="src\dx12\DX12Factory.cpp" />
+    <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp" />
     <ClCompile Include="src\ForwardRenderer.cpp" />
     <ClCompile Include="src\ObjMesh.cpp" />
     <ClCompile Include="src\PixelBase.cpp" />
