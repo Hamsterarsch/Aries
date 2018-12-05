@@ -1,9 +1,11 @@
 #include "Error.h"
-#include "WinWindow.h"
 #include "dx12/DX12Factory.h"
 #include "dx12/DX12SurfacePolicy.h"
+#include "IGAPIFactoryInternal.h"
+#include "WinWindow.h"
 
-FWinWindow::FWinWindow(IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, const UINT Width, const UINT Height, LPCWSTR WindowName, HWND Parent) :
+
+FWinWindow::FWinWindow(IGAPIFactoryInternal *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, const UINT Width, const UINT Height, LPCWSTR WindowName, HWND Parent) :
 	m_hInstance{ hInstance },
 	m_WndClassName{ WndClassName }
 {
@@ -20,7 +22,7 @@ FWinWindow::FWinWindow(IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWn
 		break;
 	default:
 		ARI_THROW_ERROR(-1, "FWinWindow:: api not implemented.");
-		
+		return;
 	}
 
 		

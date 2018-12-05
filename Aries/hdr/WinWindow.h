@@ -3,12 +3,12 @@
 #include "IWindow.h"
 #include <memory>
 #include "ISurfacePolicy.h"
-#include "IGAPIFactory.h"
+
 
 class FWinWindow : public IWindow
 {
 public:
-	FWinWindow(IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, UINT Width = 1920, UINT Height = 1080, LPCWSTR WindowName = L"Default", HWND Parent = nullptr);
+	FWinWindow(class IGAPIFactoryInternal *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, UINT Width = 1920, UINT Height = 1080, LPCWSTR WindowName = L"Default", HWND Parent = nullptr);
 	~FWinWindow();
 		
 	FWinWindow(FWinWindow &Other) = delete;
@@ -18,6 +18,7 @@ public:
 	FWinWindow &operator=(FWinWindow &&Rhs) = default;
 
 	void Show(int nCmdShow){ ShowWindow(m_hWnd, nCmdShow); }
+
 
 protected:
 	void RegisterWindowClass(HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName) const;

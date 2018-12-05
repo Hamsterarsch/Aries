@@ -16,8 +16,26 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{489678df-086e-4df4-bbc6-216e85bff1ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Interfaces">
-      <UniqueIdentifier>{a04cb5b7-8ad7-4846-8e95-88b850a9fac9}</UniqueIdentifier>
+    <Filter Include="Header Files\Win">
+      <UniqueIdentifier>{5f8cd546-42b8-41de-8182-209796f12105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Win">
+      <UniqueIdentifier>{e96f6b82-29ea-400d-b577-06d1f69bfb52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{4d745301-a6cf-4f87-84bf-46f2c0bdeff9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render\DX12">
+      <UniqueIdentifier>{8420d251-90eb-4b74-a818-1bacfb3355d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render\Interfaces">
+      <UniqueIdentifier>{81939731-d472-4c53-86f9-ce21f845cc3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render">
+      <UniqueIdentifier>{fe1224d5-a0bf-4245-b241-e1edcfe64b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render\DX12">
+      <UniqueIdentifier>{f12d05b8-0b98-4ecd-947f-1f507b6b5a3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,9 +43,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hdr\Error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\WinWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hdr\ForwardRenderer.h">
@@ -105,29 +120,47 @@
     <ClInclude Include="hdr\dx11\DX11Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\IPipelineState.h">
-      <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\dx11\DX11PipelineState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\IGAPIFactory.h">
-      <Filter>Header Files\Interfaces</Filter>
+    <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h">
+      <Filter>Header Files\Render\DX12</Filter>
     </ClInclude>
     <ClInclude Include="hdr\dx12\DX12Factory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Render\DX12</Filter>
     </ClInclude>
     <ClInclude Include="hdr\dx12\DX12DescriptorHeap.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Render\DX12</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="hdr\WinWindow.h">
+      <Filter>Header Files\Win</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\IWindow.h">
-      <Filter>Header Files\Interfaces</Filter>
+    <ClInclude Include="hdr\IPipelineState.h">
+      <Filter>Header Files\Render\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IGAPIFactoryInternal.h">
+      <Filter>Header Files\Render\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IGAPIFactory.h">
+      <Filter>Header Files\Render\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="hdr\ISurfacePolicy.h">
-      <Filter>Header Files\Interfaces</Filter>
+      <Filter>Header Files\Render\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\GAPIFactoryProxy.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12PSO.h">
+      <Filter>Header Files\Render\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IWindow.h">
+      <Filter>Header Files\Render\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IResourceBindings.h">
+      <Filter>Header Files\Render\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12ResourceBindings.h">
+      <Filter>Header Files\Render\DX12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,9 +168,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Aries.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WinWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ForwardRenderer.cpp">
@@ -185,14 +215,26 @@
     <ClCompile Include="src\dx11\DX11PipelineState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp">
+      <Filter>Source Files\Render\DX12</Filter>
+    </ClCompile>
     <ClCompile Include="src\dx12\DX12Factory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Render\DX12</Filter>
     </ClCompile>
     <ClCompile Include="src\dx12\DX12DescriptorHeap.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Render\DX12</Filter>
     </ClCompile>
-    <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\WinWindow.cpp">
+      <Filter>Source Files\Win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GAPIFactoryProxy.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12PSO.cpp">
+      <Filter>Source Files\Render\DX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12ResourceBindings.cpp">
+      <Filter>Source Files\Render\DX12</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

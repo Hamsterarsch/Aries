@@ -16,7 +16,7 @@ std::shared_ptr<IGAPIFactory> FDX12Factory::GetInstance()
 	}
 	return s_pInstance;
 	
-
+	
 }
 
 FDX12Factory::FDX12Factory()
@@ -77,7 +77,7 @@ FDX12Factory::FDX12Factory()
 	CommonCmdQDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
 	ARI_THROW_IF_FAILED(
-		m_pDevice->CreateCommandQueue( &CommonCmdQDesc, IID_PPV_ARGS(&m_pCommonCmdQ) ),
+		m_pDevice->CreateCommandQueue( &CommonCmdQDesc, IID_PPV_ARGS(&m_pFactoryCmdQ) ),
 	"Could not create dx12 common cmd queue.");
 
 

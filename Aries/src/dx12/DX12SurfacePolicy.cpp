@@ -20,7 +20,7 @@ FDX12SurfacePolicy::FDX12SurfacePolicy(FDX12Factory *pFactory, HWND hWnd, UINT W
 	SwDesc.BufferCount = FrameCount;
 		
 	ARI_THROW_IF_FAILED(
-		pFactory->GetDXGIFactory()->CreateSwapChainForHwnd( pFactory->GetCommonCmdQ(), hWnd, &SwDesc, &FsDesc, nullptr, m_pSwapChain.GetAddressOf() ),
+		pFactory->GetDXGIFactory()->CreateSwapChainForHwnd( pFactory->GetFactoryCmdQ(), hWnd, &SwDesc, &FsDesc, nullptr, m_pSwapChain.GetAddressOf() ),
 	"Could not create dx12 window swapchain.");
 			
 	for (UINT BufferIndex{ 0 }; BufferIndex < m_vRenderTargets.size(); ++BufferIndex)
