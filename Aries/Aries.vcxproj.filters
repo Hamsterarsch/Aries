@@ -162,6 +162,9 @@
     <ClInclude Include="hdr\dx12\DX12ResourceBindings.h">
       <Filter>Header Files\Render\DX12</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\EnumFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DeviceResources.cpp">

@@ -171,6 +171,7 @@
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h" />
     <ClInclude Include="hdr\dx12\DX12PSO.h" />
     <ClInclude Include="hdr\dx12\DX12ResourceBindings.h" />
+    <ClInclude Include="hdr\EnumFlags.h" />
     <ClInclude Include="hdr\Error.h" />
     <ClInclude Include="hdr\GAPIFactoryProxy.h" />
     <ClInclude Include="hdr\ForwardRenderer.h" />

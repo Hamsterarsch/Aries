@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "IWindow.h"
 
 //Typeless enum memory
