@@ -8,11 +8,11 @@ FDX12DescriptorHeap::FDX12DescriptorHeap(ID3D12Device *pDevice, D3D12_DESCRIPTOR
 	ARI_ASSERT(pDevice, "Trying to create dx12 descriptor heap with null device.");
 
 	m_Desc.NumDescriptors = NumDescriptors;
-	m_Desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	m_Desc.Type = Type;
 	m_Desc.Flags = (bIsShaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
 	ARI_THROW_IF_FAILED(
 		pDevice->CreateDescriptorHeap(&m_Desc, IID_PPV_ARGS(&m_pDh)),
-		"Could not create dx12 rtv descriptor heap.");
+	"Could not create dx12 descriptor heap.");
 
 	m_hCPUHeapStart = D3D12_CPU_DESCRIPTOR_HANDLE{ m_pDh->GetCPUDescriptorHandleForHeapStart() };
 	m_hGPUHeapStart = D3D12_GPU_DESCRIPTOR_HANDLE{ m_pDh->GetGPUDescriptorHandleForHeapStart() };

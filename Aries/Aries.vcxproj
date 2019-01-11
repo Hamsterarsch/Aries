@@ -168,6 +168,7 @@
     <ClInclude Include="hdr\dx11\DX11PipelineState.h" />
     <ClInclude Include="hdr\dx12\DX12DescriptorHeap.h" />
     <ClInclude Include="hdr\dx12\DX12Factory.h" />
+    <ClInclude Include="hdr\dx12\DX12ResourceTable.h" />
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h" />
     <ClInclude Include="hdr\dx12\DX12PSO.h" />
     <ClInclude Include="hdr\dx12\DX12ResourceBindings.h" />
