@@ -1,20 +1,22 @@
 #pragma once
 #include <memory>
+#include <vector>
 
 //
 #include "dx12/DX12DescriptorHeap.h"
 #include "dx12/DX12Factory.h"
+#include "GAPITypes.h"
 
 
 class IGAPIResource
 {
 public:
-	//virtual ... GetType() const noexcept = 0;
+	virtual EGAPIResourceTypes GetType() const noexcept = 0;
 	
 
 };
 
-struct FResourceTableDesc
+struct FDescriptorInfo
 {
 public:
 	IGAPIResource &Resource;
@@ -25,12 +27,30 @@ public:
 class FDX12ResourceTable
 {
 public:
-	FDX12ResourceTable(FDX12Factory &Factory)
+	FDX12ResourceTable(FDX12Factory &Factory, const std::vector<FDescriptorInfo> &vDescriptorInfos)
 	{
 		UINT Num{ 0 };
-		m_pHeap = std::make_unique<FDX12DescriptorHeap>( Factory.GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, Num, true );
+		m_pHeap = std::make_unique<FDX12DescriptorHeap>( Factory.GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, static_cast<UINT>( vDescriptorInfos.size() ), true );
 		
-		D3D12_DESCRIPTOR_RANGE1 r{};
+		std::vector<D3D12_DESCRIPTOR_RANGE1> vDescriptorRanges(vDescriptorInfos.size());
+		{
+			unsigned int DescriptorIndex{ 0 };
+			for (auto &&DescriptorInfo : vDescriptorInfos)
+			{
+				D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc{};
+				CBVDesc.
+
+				Factory.GetDevice()->CreateConstantBufferView()
+				switch( DescriptorInfo.Resource.GetType() )
+				{
+				
+				
+				}
+
+				++DescriptorIndex;
+			}
+
+		}
 		
 		
 

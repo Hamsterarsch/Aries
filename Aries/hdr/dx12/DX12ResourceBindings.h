@@ -9,6 +9,8 @@
 
 using Microsoft::WRL::ComPtr;
 
+
+
 enum class ERB_ResourceType : unsigned char
 {
 	Unspecified,
@@ -91,3 +93,5 @@ protected:
 	static constexpr unsigned int s_MaxConstantSize{ 16 * 4 }
 
 };
+
+

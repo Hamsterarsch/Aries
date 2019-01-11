@@ -168,6 +168,9 @@
     <ClInclude Include="hdr\dx12\DX12ResourceTable.h">
       <Filter>Header Files\Render\DX12</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\GAPITypes.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DeviceResources.cpp">

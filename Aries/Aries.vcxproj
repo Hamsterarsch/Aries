@@ -176,6 +176,7 @@
     <ClInclude Include="hdr\Error.h" />
     <ClInclude Include="hdr\GAPIFactoryProxy.h" />
     <ClInclude Include="hdr\ForwardRenderer.h" />
+    <ClInclude Include="hdr\GAPITypes.h" />
     <ClInclude Include="hdr\IContextBinding.h" />
     <ClInclude Include="hdr\IGAPIFactory.h" />
     <ClInclude Include="hdr\IGAPIFactoryInternal.h" />
