@@ -7,15 +7,7 @@
 using TEM = unsigned short;
 
 
-//
-enum class EHeapType : unsigned char
-{
-	DEFAULT,
-	UPLOAD,
-	READBACK
 
-};
-//
 
 struct FBlend
 {
@@ -91,6 +83,22 @@ enum class EOSType : unsigned short
 
 };
 
+enum class EHeapType : unsigned char
+{
+	Default,
+	Upload,
+	Readback
+
+};
+
+enum class EResourceCategory : unsigned char
+{
+	Buffer = 1,
+	Texture,
+	RT_DS_Texture
+
+};
+
 class IGAPIFactory
 {
 public:
@@ -100,6 +108,6 @@ public:
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) = 0;
 	
-	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, bool bHasMSAAAlignment) = 0;
+	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) = 0;
 
 };

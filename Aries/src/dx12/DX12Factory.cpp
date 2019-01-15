@@ -97,25 +97,9 @@ std::unique_ptr<IWindow> FDX12Factory::MakeWindow(UINT Width, UINT Height, LPCWS
 
 }
 
-std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapType Type, size_t SizeInBytes, bool bHasMSAAAlignment)
+std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment)
 {
-	D3D12_HEAP_TYPE APIType{};
-
-	switch (Type)
-	{
-	case EHeapType::DEFAULT:
-		APIType = D3D12_HEAP_TYPE_DEFAULT;
-		break;
-	case EHeapType::READBACK:
-		APIType = D3D12_HEAP_TYPE_READBACK;
-		break;
-	case EHeapType::UPLOAD:
-		APIType = D3D12_HEAP_TYPE_UPLOAD;
-		break;
-
-	}
-
-	return std::make_unique<FDX12Heap>(*this, APIType, SizeInBytes, bHasMSAAAlignment);
+	return std::make_unique<FDX12Heap>(*this, Type, SizeInBytes, TargetCategory, bHasMSAAAlignment);
 
 
 }

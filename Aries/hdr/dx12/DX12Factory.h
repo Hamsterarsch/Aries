@@ -22,7 +22,7 @@ public:
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) override;
 
-	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, bool bHasMSAAAlignment) override;
+	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) override;
 
 
 protected:
