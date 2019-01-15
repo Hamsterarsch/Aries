@@ -1,11 +1,11 @@
 #include "Error.h"
 #include "dx12/DX12Factory.h"
 #include "dx12/DX12SurfacePolicy.h"
-#include "IGAPIFactoryInternal.h"
+#include "IGAPIFactory.h"
 #include "WinWindow.h"
 
 
-FWinWindow::FWinWindow(IGAPIFactoryInternal *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, const UINT Width, const UINT Height, LPCWSTR WindowName, HWND Parent) :
+FWinWindow::FWinWindow(IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, const UINT Width, const UINT Height, LPCWSTR WindowName, HWND Parent) :
 	m_hInstance{ hInstance },
 	m_WndClassName{ WndClassName }
 {

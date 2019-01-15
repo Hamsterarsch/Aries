@@ -3,13 +3,13 @@
 #include <dxgi1_4.h>
 #include <wrl/client.h>
 #include <memory>
-#include "IGAPIFactoryInternal.h"
+#include "IGAPIFactory.h"
 #include "IWindow.h"
 #include "ISurfacePolicy.h"
 
 using Microsoft::WRL::ComPtr;
 
-class FDX12Factory : public IGAPIFactoryInternal
+class FDX12Factory : public IGAPIFactory
 {
 public:
 	static std::shared_ptr<IGAPIFactory> GetInstance();
@@ -19,7 +19,10 @@ public:
 	ID3D12CommandQueue *GetFactoryCmdQ() const noexcept { return m_pFactoryCmdQ.Get(); }
 
 	virtual EAPIType GetApiType() const override { return EAPIType::DX12; }
+
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) override;
+
+	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, bool bHasMSAAAlignment) override;
 
 
 protected:

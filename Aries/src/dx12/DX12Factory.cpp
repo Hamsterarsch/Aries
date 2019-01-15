@@ -3,6 +3,7 @@
 #include "dx12/DX12Factory.h"
 #include "dx12/DX12SurfacePolicy.h"
 #include "WinWindow.h"
+#include "dx12/DX12Heap.h"
 
 std::shared_ptr<FDX12Factory> FDX12Factory::s_pInstance{};
 
@@ -92,6 +93,29 @@ std::unique_ptr<IWindow> FDX12Factory::MakeWindow(UINT Width, UINT Height, LPCWS
 {
 	//dx only windows compatible
 	return std::make_unique<FWinWindow>(this, GetModuleHandle(nullptr), pfnWndProc, pClassName, Width, Height, pWindowName);
+
+
+}
+
+std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapType Type, size_t SizeInBytes, bool bHasMSAAAlignment)
+{
+	D3D12_HEAP_TYPE APIType{};
+
+	switch (Type)
+	{
+	case EHeapType::DEFAULT:
+		APIType = D3D12_HEAP_TYPE_DEFAULT;
+		break;
+	case EHeapType::READBACK:
+		APIType = D3D12_HEAP_TYPE_READBACK;
+		break;
+	case EHeapType::UPLOAD:
+		APIType = D3D12_HEAP_TYPE_UPLOAD;
+		break;
+
+	}
+
+	return std::make_unique<FDX12Heap>(*this, APIType, SizeInBytes, bHasMSAAAlignment);
 
 
 }

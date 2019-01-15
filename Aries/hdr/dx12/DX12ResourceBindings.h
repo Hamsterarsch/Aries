@@ -90,7 +90,7 @@ protected:
 
 	ComPtr<ID3D12RootSignature> m_pRootSignature;
 
-	static constexpr unsigned int s_MaxConstantSize{ 16 * 4 }
+
 
 };
 

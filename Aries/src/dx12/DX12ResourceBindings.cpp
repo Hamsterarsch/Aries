@@ -5,7 +5,6 @@
 
 //Static-------------------
 
-constexpr unsigned int FDX12ResourceBindings::s_MaxConstantSize;
 
 
 //Public----------------
@@ -135,7 +134,8 @@ FDX12ResourceBindings::FDX12ResourceBindings(const std::vector<FRB_LayoutNode> &
 			   
 		vParameterInfos.at(ParameterIndex).DescriptorTable = TableInfo;
 		vParameterInfos.at(ParameterIndex).ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-		vParameterInfos.at(ParameterIndex).ShaderVisibility = TranslateShaderVisibility()
+		
+		//vParameterInfos.at(ParameterIndex).ShaderVisibility = TranslateShaderVisibility();
 		++ParameterIndex;
 
 	}

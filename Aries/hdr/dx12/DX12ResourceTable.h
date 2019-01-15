@@ -38,10 +38,10 @@ public:
 			for (auto &&DescriptorInfo : vDescriptorInfos)
 			{
 				D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc{};
-				CBVDesc.
+				//CBVDesc.
 
-				Factory.GetDevice()->CreateConstantBufferView()
-				switch( DescriptorInfo.Resource.GetType() )
+				//Factory.GetDevice()->CreateConstantBufferView()
+				//switch( DescriptorInfo.Resource.GetType() )
 				{
 				
 				

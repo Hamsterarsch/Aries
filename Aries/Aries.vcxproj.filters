@@ -39,19 +39,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hdr\DeviceResources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\Error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\ForwardRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\ModulePath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\ObjSyntaxHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="objloader\hdr\ObjLoader.h">
@@ -60,67 +51,7 @@
     <ClInclude Include="objloader\hdr\ObjLexer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\IMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\ObjMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\Light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\SceneGraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\Actor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\TextureTarget2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\ShaderCluster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\VertexBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\ShaderBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\PixelBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\PixelToTexture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\IContextBinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\PixelSingleLightShadow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\VertexSingleLightShadow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\RenderPass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\PassMetadata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\DepthBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\dx11\DX11ConstantBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\DX11Texture3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\dx11\DX11Factory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\dx11\DX11PipelineState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h">
@@ -138,17 +69,11 @@
     <ClInclude Include="hdr\IPipelineState.h">
       <Filter>Header Files\Render\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\IGAPIFactoryInternal.h">
-      <Filter>Header Files\Render\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\IGAPIFactory.h">
       <Filter>Header Files\Render\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="hdr\ISurfacePolicy.h">
       <Filter>Header Files\Render\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="hdr\GAPIFactoryProxy.h">
-      <Filter>Header Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="hdr\dx12\DX12PSO.h">
       <Filter>Header Files\Render\DX12</Filter>
@@ -171,57 +96,24 @@
     <ClInclude Include="hdr\GAPITypes.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12Heap.h">
+      <Filter>Header Files\Render\DX12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\GAPIMisc.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IHeap.h">
+      <Filter>Header Files\Render\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\DeviceResources.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Aries.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ForwardRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objloader\src\ObjLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="objloader\src\ObjLexer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ObjMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hdr\IActor.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Actor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TextureTarget2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PixelBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PixelToTexture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\VertexSingleLightShadow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PixelSingleLightShadow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DepthBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dx11\DX11Factory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dx11\DX11PipelineState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp">
@@ -235,9 +127,6 @@
     </ClCompile>
     <ClCompile Include="src\WinWindow.cpp">
       <Filter>Source Files\Win</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GAPIFactoryProxy.cpp">
-      <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="src\dx12\DX12PSO.cpp">
       <Filter>Source Files\Render\DX12</Filter>

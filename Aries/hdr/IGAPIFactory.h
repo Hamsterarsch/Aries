@@ -1,9 +1,21 @@
 #pragma once
 #include <memory>
 #include "IWindow.h"
+#include "IHeap.h"
 
 //Typeless enum memory
 using TEM = unsigned short;
+
+
+//
+enum class EHeapType : unsigned char
+{
+	DEFAULT,
+	UPLOAD,
+	READBACK
+
+};
+//
 
 struct FBlend
 {
@@ -82,9 +94,12 @@ enum class EOSType : unsigned short
 class IGAPIFactory
 {
 public:
+	virtual ~IGAPIFactory() = default;
+
 	virtual EAPIType GetApiType() const = 0;
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) = 0;
-
+	
+	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, bool bHasMSAAAlignment) = 0;
 
 };

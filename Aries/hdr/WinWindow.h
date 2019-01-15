@@ -8,7 +8,7 @@
 class FWinWindow : public IWindow
 {
 public:
-	FWinWindow(class IGAPIFactoryInternal *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, UINT Width = 1920, UINT Height = 1080, LPCWSTR WindowName = L"Default", HWND Parent = nullptr);
+	FWinWindow(class IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWndProc, LPCWSTR WndClassName, UINT Width = 1920, UINT Height = 1080, LPCWSTR WindowName = L"Default", HWND Parent = nullptr);
 	~FWinWindow();
 		
 	FWinWindow(FWinWindow &Other) = delete;
