@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="hdr">
+      <UniqueIdentifier>{982a2439-2aaa-4392-915e-cf2155f96e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{735b05fb-362a-4fc0-9b0f-4911641d05a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hdr\dx12">
+      <UniqueIdentifier>{aad40bdf-71ce-4756-a1da-5f8c1c6bbe6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\dx12">
+      <UniqueIdentifier>{3535999a-d9e7-494b-a103-60733342b141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hdr\client">
+      <UniqueIdentifier>{f966eaf1-42be-4321-885b-2f80fb23831e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hdr\win">
+      <UniqueIdentifier>{13219b4c-3737-4af7-9018-2ecd9f829fe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\win">
+      <UniqueIdentifier>{5631de8f-4673-4c4b-9fea-fd9d3e49fb15}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hdr\dx12\DX12DescriptorHeap.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12Factory.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12Heap.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12PSO.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12ResourceBindings.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12ResourceTable.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\GAPIMisc.h">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\GAPITypes.h">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\targetver.h">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\win\WinWindow.h">
+      <Filter>hdr\win</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\Rhi.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IPipelineState.h">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\IResourceBindings.h">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\ISurfacePolicy.h">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\IGAPIFactory.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\LinkageMacro.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\IHeap.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\IWindow.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\dllmain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12DescriptorHeap.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12Factory.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12PSO.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12ResourceBindings.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\win\WinWindow.cpp">
+      <Filter>src\win</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rhi.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
