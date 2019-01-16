@@ -8,9 +8,15 @@
 
 using Microsoft::WRL::ComPtr;
 
+/**Factory for the dx12 graphics api.
+ * Provides functions creating all objects usable by the api abstraction.
+ */
 class FDX12Factory : public IGAPIFactory
 {
 public:
+	/**Returns the static factory instance for the dx12 api.
+	 *@return: A pointer to the factory interface.
+	 */
 	static std::shared_ptr<IGAPIFactory> GetInstance();
 
 	IDXGIFactory4 *GetDXGIFactory() const noexcept { return m_pDXGIFactory.Get(); }
