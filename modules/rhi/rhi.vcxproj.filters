@@ -81,6 +81,15 @@
     <ClInclude Include="hdr\client\IWindow.h">
       <Filter>hdr\client</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\RingHeap.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12ReservedBuffer.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\IReservedBuffer.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -106,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="src\Rhi.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12ReservedBuffer.cpp">
+      <Filter>src\dx12</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

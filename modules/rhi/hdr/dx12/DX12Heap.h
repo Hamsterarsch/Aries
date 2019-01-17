@@ -31,8 +31,7 @@ public:
 			ARI_THROW_ERROR(-1, "FDX12Heap, invalid heap type");
 
 		}		
-
-
+				
 		D3D12_HEAP_DESC Desc{};
 		Desc.Properties = Prop;
 		Desc.SizeInBytes = m_SizeInBytes;
@@ -70,6 +69,7 @@ public:
 
 	}
 
+	size_t GetSizeInBytes() const noexcept final override { return m_SizeInBytes; }
 
 protected:
 	ComPtr<ID3D12Heap> m_pHeap;

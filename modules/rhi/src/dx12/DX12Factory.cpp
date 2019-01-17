@@ -1,9 +1,10 @@
 #include <d3d12sdklayers.h>
 #include "Error.h"
+#include "win/WinWindow.h"
 #include "dx12/DX12Factory.h"
 #include "dx12/DX12SurfacePolicy.h"
-#include "win/WinWindow.h"
 #include "dx12/DX12Heap.h"
+#include "dx12/DX12ReservedBuffer.h"
 
 std::shared_ptr<FDX12Factory> FDX12Factory::s_pInstance{};
 
@@ -71,7 +72,7 @@ FDX12Factory::FDX12Factory()
 
 		}
 		ARI_ASSERT(m_pDevice, "Could not create dx12 device.");
-		
+
 	}
 
 	D3D12_COMMAND_QUEUE_DESC CommonCmdQDesc{};
@@ -101,6 +102,13 @@ std::unique_ptr<IWindow> FDX12Factory::MakeWindow(UINT Width, UINT Height, LPCWS
 std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment)
 {
 	return std::make_unique<FDX12Heap>(*this, Type, SizeInBytes, TargetCategory, bHasMSAAAlignment);
+
+
+}
+
+std::unique_ptr<IReservedBuffer> FDX12Factory::MakeReservedBuffer(size_t SizeInBytes)
+{
+	return std::make_unique<FDX12ReservedBuffer>(*this, SizeInBytes);
 
 
 }

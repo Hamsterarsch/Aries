@@ -1,8 +1,11 @@
 #pragma once
 #include <windows.h>//rework the os dependecy
 #include <memory>
+
+//Added for client convenience
 #include "IWindow.h"
 #include "IHeap.h"
+#include "IReservedBuffer.h"
 
 //Typeless enum memory
 /*
@@ -74,6 +77,7 @@ struct FPSOInfo
 };
 */
 
+
 enum class EAPIType : unsigned short
 {
 	DX12
@@ -82,26 +86,11 @@ enum class EAPIType : unsigned short
 
 enum class EOSType : unsigned short
 {
-	Windows
+	Windows,
+	Apple,
+	Linux
 
 };
-
-enum class EHeapType : unsigned char
-{
-	Default,
-	Upload,
-	Readback
-
-};
-
-enum class EResourceCategory : unsigned char
-{
-	Buffer = 1,
-	Texture,
-	RT_DS_Texture
-
-};
-
 
 class IGAPIFactory
 {
@@ -113,5 +102,7 @@ public:
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) = 0;
 	
 	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) = 0;
+
+	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(size_t SizeInBytes) = 0;
 
 };
