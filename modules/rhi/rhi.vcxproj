@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="hdr\client\GAPITypes.h" />
+    <ClInclude Include="hdr\client\ICmdQueue.h" />
+    <ClInclude Include="hdr\client\IFence.h" />
     <ClInclude Include="hdr\client\IGAPIFactory.h" />
     <ClInclude Include="hdr\client\IHeap.h" />
     <ClInclude Include="hdr\client\IReservedBuffer.h" />
@@ -27,14 +30,15 @@
     <ClInclude Include="hdr\client\Rhi.h" />
     <ClInclude Include="hdr\dx12\DX12DescriptorHeap.h" />
     <ClInclude Include="hdr\dx12\DX12Factory.h" />
+    <ClInclude Include="hdr\dx12\DX12Fence.h" />
     <ClInclude Include="hdr\dx12\DX12Heap.h" />
     <ClInclude Include="hdr\dx12\DX12PSO.h" />
     <ClInclude Include="hdr\dx12\DX12ReservedBuffer.h" />
     <ClInclude Include="hdr\dx12\DX12ResourceBindings.h" />
     <ClInclude Include="hdr\dx12\DX12ResourceTable.h" />
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h" />
+    <ClInclude Include="hdr\dx12\DX12CmdQueue.h" />
     <ClInclude Include="hdr\GAPIMisc.h" />
-    <ClInclude Include="hdr\GAPITypes.h" />
     <ClInclude Include="hdr\IPipelineState.h" />
     <ClInclude Include="hdr\IResourceBindings.h" />
     <ClInclude Include="hdr\ISurfacePolicy.h" />
@@ -44,8 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\dx12\DX12CmdQueue.cpp" />
     <ClCompile Include="src\dx12\DX12DescriptorHeap.cpp" />
     <ClCompile Include="src\dx12\DX12Factory.cpp" />
+    <ClCompile Include="src\dx12\DX12Fence.cpp" />
     <ClCompile Include="src\dx12\DX12PSO.cpp" />
     <ClCompile Include="src\dx12\DX12ReservedBuffer.cpp" />
     <ClCompile Include="src\dx12\DX12ResourceBindings.cpp" />

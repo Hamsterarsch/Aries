@@ -5,13 +5,13 @@
 //
 #include "dx12/DX12DescriptorHeap.h"
 #include "dx12/DX12Factory.h"
-#include "GAPITypes.h"
+//#include "GAPITypes.h"
 
 
 class IGAPIResource
 {
 public:
-	virtual EGAPIResourceTypes GetType() const noexcept = 0;
+	//virtual EGAPIResourceTypes GetType() const noexcept = 0;
 	
 
 };

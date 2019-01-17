@@ -18,7 +18,7 @@ FWinWindow::FWinWindow(IGAPIFactory *pFactory, HINSTANCE hInstance, WNDPROC pfWn
 
 	switch (pFactory->GetApiType())
 	{
-	case EAPIType::DX12:
+	case EAPITypes::DX12:
 		m_pSurfacePolicy = std::make_unique<FDX12SurfacePolicy>(static_cast<FDX12Factory *>(pFactory), m_hWnd, Width, Height, true, 2);
 		break;
 	default:

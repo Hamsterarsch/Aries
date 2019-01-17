@@ -35,8 +35,8 @@ public:
 		D3D12_HEAP_DESC Desc{};
 		Desc.Properties = Prop;
 		Desc.SizeInBytes = m_SizeInBytes;
-		Desc.Alignment = bHasMSAAAlignment ? D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT : D3D12_DEFAULT_MSAA_RESOURCE_PLACEMENT_ALIGNMENT;
-
+		Desc.Alignment = bHasMSAAAlignment ? D3D12_DEFAULT_MSAA_RESOURCE_PLACEMENT_ALIGNMENT : D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT;
+		
 		switch (TargetCategory)
 		{
 		case EResourceCategory::Buffer:
@@ -47,6 +47,9 @@ public:
 			break;
 		case EResourceCategory::RT_DS_Texture:
 			Desc.Flags = D3D12_HEAP_FLAG_DENY_BUFFERS | D3D12_HEAP_FLAG_DENY_NON_RT_DS_TEXTURES;
+			break;
+		case EResourceCategory::All:
+			Desc.Flags = D3D12_HEAP_FLAG_ALLOW_ALL_BUFFERS_AND_TEXTURES;
 			break;
 		default:
 			ARI_THROW_ERROR(-1, "FDX12Heap, invalid target category");

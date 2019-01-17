@@ -63,7 +63,7 @@ FDX12Factory::FDX12Factory()
 			}
 
 			//com ptr exception
-			if( SUCCEEDED( D3D12CreateDevice(pHardwareAdapter.Get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&m_pDevice))) )
+			if( SUCCEEDED( D3D12CreateDevice(pHardwareAdapter.Get(), D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&m_pDevice))) )
 			{
 				break;
 
@@ -106,9 +106,9 @@ std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapType Type, size_t SizeInBytes
 
 }
 
-std::unique_ptr<IReservedBuffer> FDX12Factory::MakeReservedBuffer(size_t SizeInBytes)
+std::unique_ptr<IReservedBuffer> FDX12Factory::MakeReservedBuffer(EBufferTypes Type, size_t SizeInBytes)
 {
-	return std::make_unique<FDX12ReservedBuffer>(*this, SizeInBytes);
+	return std::make_unique<FDX12ReservedBuffer>(*this, Type, SizeInBytes);
 
 
 }

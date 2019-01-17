@@ -8,28 +8,23 @@
 
 using Microsoft::WRL::ComPtr;
 
-/**Factory for the dx12 graphics api.
- * Provides functions creating all objects usable by the api abstraction.
- */
+
 class FDX12Factory : public IGAPIFactory
 {
 public:
-	/**Returns the static factory instance for the dx12 api.
-	 *@return: A pointer to the factory interface.
-	 */
 	static std::shared_ptr<IGAPIFactory> GetInstance();
 
 	IDXGIFactory4 *GetDXGIFactory() const noexcept { return m_pDXGIFactory.Get(); }
 	ID3D12Device *GetDevice() const noexcept { return m_pDevice.Get(); }
 	ID3D12CommandQueue *GetFactoryCmdQ() const noexcept { return m_pFactoryCmdQ.Get(); }
 
-	virtual EAPIType GetApiType() const override { return EAPIType::DX12; }
+	virtual EAPITypes GetApiType() const override { return EAPITypes::DX12; }
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) override;
 
 	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) override;
 
-	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(size_t SizeInBytes) override;
+	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(EBufferTypes Type, size_t SizeInBytes) override;
 
 
 protected:

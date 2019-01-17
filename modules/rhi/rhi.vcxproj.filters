@@ -48,9 +48,6 @@
     <ClInclude Include="hdr\GAPIMisc.h">
       <Filter>hdr</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\GAPITypes.h">
-      <Filter>hdr</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\targetver.h">
       <Filter>hdr</Filter>
     </ClInclude>
@@ -90,6 +87,21 @@
     <ClInclude Include="hdr\client\IReservedBuffer.h">
       <Filter>hdr\client</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\client\GAPITypes.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\ICmdQueue.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\IFence.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12Fence.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12CmdQueue.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -117,6 +129,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\dx12\DX12ReservedBuffer.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12Fence.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12CmdQueue.cpp">
       <Filter>src\dx12</Filter>
     </ClCompile>
   </ItemGroup>

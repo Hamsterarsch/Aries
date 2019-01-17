@@ -13,9 +13,11 @@ enum class EResourceCategory : unsigned char
 {
 	Buffer = 1,
 	Texture,
-	RT_DS_Texture
+	RT_DS_Texture,
+	All
 
 };
+
 
 class IHeap
 {

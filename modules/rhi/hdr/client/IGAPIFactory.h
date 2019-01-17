@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>//rework the os dependecy
 #include <memory>
+#include "GAPITypes.h"
 
 //Added for client convenience
 #include "IWindow.h"
@@ -78,11 +79,6 @@ struct FPSOInfo
 */
 
 
-enum class EAPIType : unsigned short
-{
-	DX12
-
-};
 
 enum class EOSType : unsigned short
 {
@@ -97,12 +93,12 @@ class IGAPIFactory
 public:
 	virtual ~IGAPIFactory() = default;
 
-	virtual EAPIType GetApiType() const = 0;
+	virtual EAPITypes GetApiType() const = 0;
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) = 0;
 	
 	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) = 0;
 
-	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(size_t SizeInBytes) = 0;
+	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(EBufferTypes Type, size_t SizeInBytes) = 0;
 
 };
