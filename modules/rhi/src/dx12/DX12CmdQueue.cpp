@@ -35,59 +35,44 @@ FDX12CmdQueue::FDX12CmdQueue(class FDX12Factory &Factory, ECmdQueueType Type, in
 
 }
 
-void FDX12CmdQueue::WaitFence(IFence &Fence, size_t Value)
+void FDX12CmdQueue::WaitFence(IFence &Fence)
 {
 	ARI_ASSERT(Fence.GetAPIType() == EAPITypes::DX12, "dx12 cmd queue api missmatch");
 	auto Dx12Fence = static_cast<FDX12Fence &>(Fence);
 	auto pAPIFence = Dx12Fence.GetAPIHandle();
 
 	ARI_THROW_IF_FAILED(
-		m_pCmdQueue->Wait(pAPIFence.Get(), Value),
+		m_pCmdQueue->Wait(pAPIFence.Get(), 1),
 	"Unsuccessful wait dx12 fence"
 	);
 
 
 }
 
-void FDX12CmdQueue::SignalFence(IFence &Fence, size_t Value)
+void FDX12CmdQueue::SignalFence(IFence &Fence)
 {
 	ARI_ASSERT(Fence.GetAPIType() == EAPITypes::DX12, "dx12 cmd queue api missmatch");
 	auto Dx12Fence = static_cast<FDX12Fence &>(Fence);
 	auto pAPIFence = Dx12Fence.GetAPIHandle();
 
 	ARI_THROW_IF_FAILED(
-		m_pCmdQueue->Wait(pAPIFence.Get(), Value),
+		m_pCmdQueue->Signal(pAPIFence.Get(), 1),
 		"Unsuccessful wait dx12 fence"
 	);
 
 
 }
 
-void FDX12CmdQueue::IncrementFence(IFence &Fence)
+void FDX12CmdQueue::ResetFence(IFence &Fence)
 {
 	ARI_ASSERT(Fence.GetAPIType() == EAPITypes::DX12, "dx12 cmd queue api missmatch");
 	auto Dx12Fence = static_cast<FDX12Fence &>(Fence);
 	auto pAPIFence = Dx12Fence.GetAPIHandle();
 
 	ARI_THROW_IF_FAILED(
-		m_pCmdQueue->Signal(pAPIFence.Get(), pAPIFence->GetCompletedValue() + 1),
+		m_pCmdQueue->Signal(pAPIFence.Get(), 0),
 		"Unsuccessful wait dx12 fence"
 	);
-
-
-}
-
-void FDX12CmdQueue::DecrementFence(IFence &Fence)
-{
-	ARI_ASSERT(Fence.GetAPIType() == EAPITypes::DX12, "dx12 cmd queue api missmatch");
-	auto Dx12Fence = static_cast<FDX12Fence &>(Fence);	
-	auto pAPIFence = Dx12Fence.GetAPIHandle();
-
-	ARI_THROW_IF_FAILED(
-		m_pCmdQueue->Signal(pAPIFence.Get(), pAPIFence->GetCompletedValue() - 1),
-		"Unsuccessful wait dx12 fence"
-	);
-
 
 }
 

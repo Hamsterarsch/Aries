@@ -58,11 +58,10 @@ class ICmdQueue
 public:
 	virtual ~ICmdQueue() = default;
 
-	virtual void WaitFence(IFence &Fence, size_t Value) = 0;
-	virtual void SignalFence(IFence &Fence, size_t Value) = 0;
-	virtual void IncrementFence(IFence &Fence) = 0;
-	virtual void DecrementFence(IFence &Fence) = 0;
-			void
+	virtual void WaitFence(IFence &Fence) = 0;
+	virtual void SignalFence(IFence &Fence) = 0;
+	virtual void ResetFence(IFence &Fence) = 0;
+
 	virtual void TileMappingsCopy(IResourceReserved &Dst, const FTileCoord &DstStartCoord, IResourceReserved &Src, const FTileCoord &SrcStartCoord, const FTileRegion &CopyRegion) = 0;
 	virtual void TileMappingsUpdate(IResourceReserved &Resource, IHeap &Heap, unsigned int NumRegions, const FResourceRegion &Regions, unsigned int NumRanges, const FTileRange &TileRanges) = 0;
 
