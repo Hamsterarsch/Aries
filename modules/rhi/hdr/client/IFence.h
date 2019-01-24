@@ -11,6 +11,8 @@ public:
 	virtual void Signal() = 0;
 	virtual void Reset() = 0;
 
+	virtual bool IsSignaled() = 0;
+
 	/*
 	//vulkan only supports signaled, unsignaled fences, so dx12 close interface is not feasible
 	virtual size_t GetValue() = 0;

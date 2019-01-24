@@ -2,23 +2,37 @@
 #include "dx12\DX12DescriptorHeap.h"
 
 
-FDX12DescriptorHeap::FDX12DescriptorHeap(ID3D12Device *pDevice, D3D12_DESCRIPTOR_HEAP_TYPE Type, UINT NumDescriptors, bool bIsShaderVisible) :
+FDX12DescriptorHeap::FDX12DescriptorHeap(FDX12Factory &Factory, EDescriptorHeapTypes Type, UINT DescriptorCapacity, bool bIsShaderVisible = false) :
 	m_Desc{}
 {
-	ARI_ASSERT(pDevice, "Trying to create dx12 descriptor heap with null device.");
-
-	m_Desc.NumDescriptors = NumDescriptors;
-	m_Desc.Type = Type;
+	m_Desc.NumDescriptors = DescriptorCapacity;
 	m_Desc.Flags = (bIsShaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE);
+	
+	switch (Type)
+	{
+	case EDescriptorHeapTypes::CBV_SRV_UAV:
+		m_Desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	case EDescriptorHeapTypes::DSV:
+		m_Desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	case EDescriptorHeapTypes::RTV:
+		m_Desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	case EDescriptorHeapTypes::Sampler:
+		m_Desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
+	default:
+		ARI_THROW_ERROR(-1, "Dx12 descriptor heap, invalid descriptor heap type");
+	}
+
 	ARI_THROW_IF_FAILED(
-		pDevice->CreateDescriptorHeap(&m_Desc, IID_PPV_ARGS(&m_pDh)),
+		Factory.GetDevice()->CreateDescriptorHeap(&m_Desc, IID_PPV_ARGS(&m_pHeap)),
 	"Could not create dx12 descriptor heap.");
 
-	m_hCPUHeapStart = D3D12_CPU_DESCRIPTOR_HANDLE{ m_pDh->GetCPUDescriptorHandleForHeapStart() };
-	m_hGPUHeapStart = D3D12_GPU_DESCRIPTOR_HANDLE{ m_pDh->GetGPUDescriptorHandleForHeapStart() };
-	m_HandleIncrementSize = pDevice->GetDescriptorHandleIncrementSize(m_Desc.Type);
+	m_hCPUHeapStart = D3D12_CPU_DESCRIPTOR_HANDLE{ m_pHeap->GetCPUDescriptorHandleForHeapStart() };
+	m_hGPUHeapStart = D3D12_GPU_DESCRIPTOR_HANDLE{ m_pHeap->GetGPUDescriptorHandleForHeapStart() };
+	m_HandleIncrementSize = Factory.GetDevice()->GetDescriptorHandleIncrementSize(m_Desc.Type);
 
-
+	
+	
+	
 }
 
 D3D12_CPU_DESCRIPTOR_HANDLE FDX12DescriptorHeap::GetHandleCPU(UINT Index) const

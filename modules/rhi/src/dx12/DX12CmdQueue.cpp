@@ -31,7 +31,7 @@ FDX12CmdQueue::FDX12CmdQueue(class FDX12Factory &Factory, ECmdQueueType Type, in
 		Factory.GetDevice()->CreateCommandQueue(&Desc, IID_PPV_ARGS(&m_pCmdQueue)),
 	"Could not create dx12 command queue"
 	);
-
+	
 
 }
 
@@ -88,8 +88,10 @@ void FDX12CmdQueue::TileMappingsUpdate(IResourceReserved &Resource, IHeap &Heap,
 
 }
 
+/*
 void FDX12CmdQueue::ExecuteCommandLists(unsigned int NumCmdLists, ICmdList &Lists)
 {
 
 
 }
+*/

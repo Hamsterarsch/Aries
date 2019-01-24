@@ -102,6 +102,18 @@
     <ClInclude Include="hdr\dx12\DX12CmdQueue.h">
       <Filter>hdr\dx12</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12CmdAllocator.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12CmdList.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12PlacedResource.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\client\IGAPIResource.h">
+      <Filter>hdr\client</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

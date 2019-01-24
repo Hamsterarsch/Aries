@@ -65,7 +65,7 @@ public:
 	virtual void TileMappingsCopy(IResourceReserved &Dst, const FTileCoord &DstStartCoord, IResourceReserved &Src, const FTileCoord &SrcStartCoord, const FTileRegion &CopyRegion) = 0;
 	virtual void TileMappingsUpdate(IResourceReserved &Resource, IHeap &Heap, unsigned int NumRegions, const FResourceRegion &Regions, unsigned int NumRanges, const FTileRange &TileRanges) = 0;
 
-	virtual void ExecuteCommandLists(unsigned int NumCmdLists, ICmdList &Lists) = 0;
+	//virtual void ExecuteCommandLists(unsigned int NumCmdLists, ICmdList &Lists) = 0;
 
 	
 };

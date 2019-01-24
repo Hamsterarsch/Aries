@@ -3,12 +3,17 @@
 #include "win/WinWindow.h"
 #include "dx12/DX12Factory.h"
 #include "dx12/DX12SurfacePolicy.h"
+
 #include "dx12/DX12Heap.h"
 #include "dx12/DX12ReservedBuffer.h"
+#include "dx12/DX12CmdQueue.h"
+#include "dx12/DX12CmdAllocator.h"
+#include "dx12/DX12CmdList.h"
+#include "dx12/DX12PlacedResource.h"
 
 std::shared_ptr<FDX12Factory> FDX12Factory::s_pInstance{};
 
-std::shared_ptr<IGAPIFactory> FDX12Factory::GetInstance()
+std::shared_ptr<FDX12Factory> FDX12Factory::GetInstance()
 {
 	
 	if (!s_pInstance)
@@ -99,7 +104,7 @@ std::unique_ptr<IWindow> FDX12Factory::MakeWindow(UINT Width, UINT Height, LPCWS
 
 }
 
-std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment)
+std::unique_ptr<IHeap> FDX12Factory::MakeHeap(EHeapTypes Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment)
 {
 	return std::make_unique<FDX12Heap>(*this, Type, SizeInBytes, TargetCategory, bHasMSAAAlignment);
 
@@ -110,5 +115,47 @@ std::unique_ptr<IReservedBuffer> FDX12Factory::MakeReservedBuffer(EBufferTypes T
 {
 	return std::make_unique<FDX12ReservedBuffer>(*this, Type, SizeInBytes);
 
+
+}
+
+std::unique_ptr<class FDX12CmdQueue> FDX12Factory::MakeCmdQueue(ECmdQueueType Type, int Priority, bool bHasGPUTimeoutEnabled)
+{
+	return std::make_unique<FDX12CmdQueue>(*this, Type, Priority, bHasGPUTimeoutEnabled);
+
+}
+
+std::unique_ptr<FDX12CmdAllocator> FDX12Factory::MakeCmdAllocator(bool bForBundleRecording)
+{
+	return std::make_unique<FDX12CmdAllocator>(*this, bForBundleRecording);
+
+}
+
+std::unique_ptr<class FDX12CmdList> FDX12Factory::MakeCmdList(const FDX12CmdAllocator &Allocator)
+{
+	return std::make_unique<FDX12CmdList>(*this, Allocator);
+
+}
+
+std::unique_ptr<class FDX12PlacedResource> FDX12Factory::MakePlacedBuffer(IHeap &Heap, size_t SizeInBytes, void *pData)
+{
+	D3D12_RESOURCE_DESC Desc{};
+
+	Desc.Alignment = Heap.HasMSAAAlignment() ? D3D12_DEFAULT_MSAA_RESOURCE_PLACEMENT_ALIGNMENT : D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT;
+	Desc.DepthOrArraySize = 1;
+	Desc.Height = 1;
+	Desc.Width = SizeInBytes;
+	Desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	Desc.MipLevels = 1;
+	Desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	Desc.SampleDesc.Count = 1;
+
+	return std::make_unique<FDX12PlacedResource>(*this, Heap, SizeInBytes, pData, Desc);
+
+
+}
+
+std::unique_ptr<class FDX12PlacedResource> FDX12Factory::MakePlacedTexture(IHeap &Heap, size_t SizeInBytes, void *pData)
+{	
+	return nullptr;
 
 }

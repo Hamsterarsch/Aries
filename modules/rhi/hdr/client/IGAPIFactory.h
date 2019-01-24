@@ -7,6 +7,7 @@
 #include "IWindow.h"
 #include "IHeap.h"
 #include "IReservedBuffer.h"
+#include "client/ICmdQueue.h"
 
 //Typeless enum memory
 /*
@@ -97,8 +98,16 @@ public:
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) = 0;
 	
-	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) = 0;
+	virtual std::unique_ptr<IHeap> MakeHeap(EHeapTypes Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) = 0;
 
 	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(EBufferTypes Type, size_t SizeInBytes) = 0;
+
+	virtual std::unique_ptr<class FDX12CmdQueue> MakeCmdQueue(ECmdQueueType Type, int Priority, bool bHasGPUTimeoutEnabled) = 0;
+
+	virtual std::unique_ptr<class FDX12CmdAllocator> MakeCmdAllocator(bool bForBundleRecording) = 0;
+
+	virtual std::unique_ptr<class FDX12CmdList> MakeCmdList(const FDX12CmdAllocator &Allocator) = 0;
+
+	virtual std::unique_ptr<class FDX12PlacedResource> MakePlacedBuffer(IHeap &Heap, size_t SizeInBytes, void *pData) = 0;
 
 };

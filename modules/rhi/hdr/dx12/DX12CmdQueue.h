@@ -18,11 +18,12 @@ public:
 	virtual void TileMappingsCopy(IResourceReserved &Dst, const FTileCoord &DstStartCoord, IResourceReserved &Src, const FTileCoord &SrcStartCoord, const FTileRegion &CopyRegion) override;
 	virtual void TileMappingsUpdate(IResourceReserved &Resource, IHeap &Heap, unsigned int NumRegions, const FResourceRegion &Regions, unsigned int NumRanges, const FTileRange &TileRanges) override;
 
-	virtual void ExecuteCommandLists(unsigned int NumCmdLists, ICmdList &Lists) override;
+	//virtual void ExecuteCommandLists(unsigned int NumCmdLists, ICmdList &Lists) override;
 
+	ComPtr<ID3D12CommandQueue> GetAPIHandle() const noexcept { return m_pCmdQueue; }
 
 protected:
-	ComPtr<class ID3D12CommandQueue> m_pCmdQueue;
+	ComPtr<struct ID3D12CommandQueue> m_pCmdQueue;
 
 
 };

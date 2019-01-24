@@ -5,14 +5,13 @@
 #include <memory>
 #include "client/IGAPIFactory.h"
 
-
 using Microsoft::WRL::ComPtr;
 
 
 class FDX12Factory : public IGAPIFactory
 {
 public:
-	static std::shared_ptr<IGAPIFactory> GetInstance();
+	static std::shared_ptr<FDX12Factory> GetInstance();
 
 	IDXGIFactory4 *GetDXGIFactory() const noexcept { return m_pDXGIFactory.Get(); }
 	ID3D12Device *GetDevice() const noexcept { return m_pDevice.Get(); }
@@ -22,11 +21,21 @@ public:
 
 	virtual std::unique_ptr<IWindow> MakeWindow(UINT Width, UINT Height, LPCWSTR pWindowName, WNDPROC pfnWndProc, LPCWSTR pClassName) override;
 
-	virtual std::unique_ptr<IHeap> MakeHeap(EHeapType Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) override;
+	virtual std::unique_ptr<IHeap> MakeHeap(EHeapTypes Type, size_t SizeInBytes, EResourceCategory TargetCategory, bool bHasMSAAAlignment) override;
 
 	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(EBufferTypes Type, size_t SizeInBytes) override;
 
+	virtual std::unique_ptr<class FDX12CmdQueue> MakeCmdQueue(ECmdQueueType Type, int Priority, bool bHasGPUTimeoutEnabled) override;
 
+	virtual std::unique_ptr<class FDX12CmdAllocator> MakeCmdAllocator(bool bForBundleRecording) override;
+
+	virtual std::unique_ptr<class FDX12CmdList> MakeCmdList(const FDX12CmdAllocator &Allocator) override;
+		
+	virtual std::unique_ptr<class FDX12PlacedResource> MakePlacedBuffer(IHeap &Heap, size_t SizeInBytes, void *pData) override;
+	
+	std::unique_ptr<class FDX12PlacedResource> MakePlacedTexture(IHeap &Heap, size_t SizeInBytes, void *pData);
+	
+	
 protected:
 	FDX12Factory();
 

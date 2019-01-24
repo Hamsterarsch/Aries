@@ -15,11 +15,12 @@ public:
 
 	virtual void Reset() override;
 
-	ComPtr<class ID3D12Fence> GetAPIHandle() const noexcept;
+	ComPtr<struct ID3D12Fence> GetAPIHandle() const noexcept;
 
+	virtual bool IsSignaled() override { return m_pFence->GetCompletedValue() == 1; }
 
 protected:
-	ComPtr<class ID3D12Fence> m_pFence;
+	ComPtr<struct ID3D12Fence> m_pFence;
 
 
 };
