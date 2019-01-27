@@ -3,7 +3,7 @@
 #include "dx12/DX12SurfacePolicy.h"
 
 FDX12SurfacePolicy::FDX12SurfacePolicy(FDX12Factory *pFactory, HWND hWnd, UINT Width, UINT Height, bool bIsWindowed, UINT FrameCount) :
-	m_RTVHeap{ pFactory->GetDevice(), D3D12_DESCRIPTOR_HEAP_TYPE_RTV, FrameCount, false },
+	m_RTVHeap{ *pFactory, EDescriptorHeapTypes::RTV, FrameCount, false },
 	m_vRenderTargets(FrameCount)
 {
 	DXGI_SWAP_CHAIN_FULLSCREEN_DESC FsDesc{};

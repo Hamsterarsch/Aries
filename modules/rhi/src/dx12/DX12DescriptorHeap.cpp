@@ -2,7 +2,7 @@
 #include "dx12\DX12DescriptorHeap.h"
 
 
-FDX12DescriptorHeap::FDX12DescriptorHeap(FDX12Factory &Factory, EDescriptorHeapTypes Type, UINT DescriptorCapacity, bool bIsShaderVisible = false) :
+FDX12DescriptorHeap::FDX12DescriptorHeap(FDX12Factory &Factory, EDescriptorHeapTypes Type, UINT DescriptorCapacity, bool bIsShaderVisible) :
 	m_Desc{}
 {
 	m_Desc.NumDescriptors = DescriptorCapacity;
