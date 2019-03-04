@@ -1,17 +1,9 @@
 #pragma once
 #include <wrl/client.h>
 #include "dx12/DX12Factory.h"
+#include "dx12/DX12TypeTranslations.h"
 
 using Microsoft::WRL::ComPtr;
-
-enum class EDescriptorHeapTypes : char
-{
-	CBV_SRV_UAV,
-	RTV,
-	DSV,
-	Sampler
-
-};
 
 class FDX12DescriptorHeap
 {

@@ -114,6 +114,12 @@
     <ClInclude Include="hdr\client\IGAPIResource.h">
       <Filter>hdr\client</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\dx12\IDX12Resource.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12TypeTranslations.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">

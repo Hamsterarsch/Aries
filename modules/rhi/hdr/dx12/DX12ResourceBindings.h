@@ -46,17 +46,8 @@ enum class EFRB_ChangeFrequency : unsigned char
 };
 GENERATE_BINARY_OPERATORS_FOR_ENUM_FLAGS(EFRB_ChangeFrequency);
 
-enum class EFShaderStages : unsigned char
-{
-	VS		= 1 << 0,
-	PS		= 1 << 1,
-	GS		= 1 << 2,
-	TEV		= 1 << 3,
-	TCTRL	= 1 << 4,
-	ALL     = static_cast<unsigned char>(~0)
+enum class EFShaderStages : char;
 
-};
-GENERATE_BINARY_OPERATORS_FOR_ENUM_FLAGS(EFShaderStages);
 
 struct FRB_LayoutNode
 {

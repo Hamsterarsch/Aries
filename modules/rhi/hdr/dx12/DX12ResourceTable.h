@@ -2,30 +2,18 @@
 #include <memory>
 #include <vector>
 
-//
 #include "dx12/DX12DescriptorHeap.h"
 #include "dx12/DX12Factory.h"
-#include "client/IGAPIResource.h"
+#include "client/IDX12Resource.h"
 #include "Error.h"
-#include "client/GAPITypes.h"
+#include "dx12/DX12TypeTranslations.h"
 
-
-enum class EDescriptorTypes : char 
-{
-	None,
-	CBV,
-	SRV,
-	UAV,
-	RTV,
-	DSV,
-	Sampler
-
-};
 
 struct FSRVTexDesc
 {
 	unsigned int LowestMipToUse;
 	int HighestMipToUse;
+
 
 };
 
@@ -36,13 +24,37 @@ struct FSRVBufferDesc
 	bool bIsRaw;
 	unsigned int StructByteStride;
 
+
 };
 
-struct FSRVArray
+struct FSRVArrayDesc
 {
 	unsigned int NumElements;
 	//For cube arrays the first array slice is the index of the first 2D texture to use
 	unsigned int FirstArraySliceToUse;
+
+
+};
+
+struct FDSVDesc
+{
+	bool bIsDepthReadOnly,
+		 bIsStencilReadOnly;
+
+
+};
+
+struct FSamplerDesc
+{
+	ETexFilterMode FilterMode;
+	ETexAddressMode U,
+					V,
+					W;
+	unsigned int LowestMipToUse;
+	unsigned int HighestMiptoUse;//uint max for all available (?)
+	int MipBias;
+	unsigned int MaxAnisotropyLevel;
+
 
 };
 
@@ -59,61 +71,88 @@ public:
 	{
 		FSRVTexDesc Tex;
 		FSRVBufferDesc Buffer;
+		FSRVArrayDesc Array;
+		FDSVDesc DSV;
+		FSamplerDesc Sampler;
 	};
-	FSRVArray Array;
 
-	//volatility flags
-	
+
 };
 
+struct FSignatureLayoutDesc
+{
 
+	EFShaderStages ShaderVisibility;
+	struct FSignatureSrcDesc;
+	{
+		//source reference
+		unsigned int StartIndex;
+		unsigned int StartShaderRegister;
+		unsigned int RangeSize;//uint max for unbounded
+		EFDescriptorFlags RangeFlags;
+		//range flags 
+
+	};
+
+};
+
+class FDX12SignatureLayout
+{
+public:
+	FDX12SignatureLayout()
+	{
+
+	}
+
+};
 
 class FDX12DescriptorTable
 {
 public:
 	FDX12DescriptorTable(FDX12Factory &Factory, const std::vector<FDescriptorInfo> &vDescriptorInfos, EDescriptorHeapTypes TableType)
 	{
-		UINT Num{ 0 };
-		
-		switch (TableType)
-		{
-		case EDescriptorHeapTypes::CBV_SRV_UAV:
-			m_APIHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-			break;
-		case EDescriptorHeapTypes::RTV:
-			m_APIHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-			break;
-		case EDescriptorHeapTypes::DSV:
-			m_APIHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-			break;
-		case EDescriptorHeapTypes::Sampler:
-			m_APIHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
-			break;
-
-		}
-		m_pHeap = std::make_unique<FDX12DescriptorHeap>( Factory, m_APIHeapType, static_cast<UINT>( vDescriptorInfos.size() ), true );
+		m_pHeap = std::make_unique<FDX12DescriptorHeap>( Factory, FDX12TranslateHeapType(TableType), static_cast<UINT>( vDescriptorInfos.size() ), true );
 		
 		std::vector<D3D12_DESCRIPTOR_RANGE1> vDescriptorRanges(vDescriptorInfos.size());
-		{
-			unsigned int DescriptorIndex{ 0 };
-			for (auto &&DescriptorInfo : vDescriptorInfos)
-			{				
-				D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc{};
-				//CBVDesc.
+		
+		
+		
+			
 
-				//Factory.GetDevice()->CreateConstantBufferView()
-				//switch( DescriptorInfo.Resource.GetType() )
-				{
-				
-				
-				}
+		unsigned int DescriptorIndex{ 0 };
+		for (auto &&DescriptorInfo : vDescriptorInfos)
+		{				
+			ARI_ASSERT(DescriptorInfo.Resource.GetAPIType() == EAPITypes::DX12, "Dx12 descriptor table, resource api mismatch");
 
-				++DescriptorIndex;
+			switch (DescriptorInfo.Type)
+			{
+			case EDescriptorTypes::CBV:
+				CreateCBV(Factory, DescriptorIndex, DescriptorInfo);
+				break;
+			case EDescriptorTypes::SRV:
+				CreateSRV(Factory, DescriptorIndex, DescriptorInfo);
+				break;
+			case EDescriptorTypes::UAV:
+				CreateUAV(Factory, DescriptorIndex, DescriptorInfo);
+				break;
+			case EDescriptorTypes::RTV:
+				CreateRTV(Factory, DescriptorIndex, DescriptorInfo);
+				break;
+			case EDescriptorTypes::DSV:
+				CreateDSV(Factory, DescriptorIndex, DescriptorInfo);
+				break;
+			case EDescriptorTypes::Sampler:
+				CreateSampler(Factory, DescriptorIndex, DescriptorInfo);
+				break;
+			default:
+				ARI_THROW_ERROR(-1, "Dx12 resource table invalid descriptor type in decriptor info");
+				break;
 			}
+			++DescriptorIndex;
+
 
 		}
-		
-		
+			
 
 	}
 
@@ -122,6 +161,7 @@ protected:
 	{
 		return m_pHeap->GetHandleCPU(Index).ptr;
 		
+
 	}
 
 	void CheckAndDoDescriptorOverride(FDX12Factory &Factory, unsigned int DescriptorIndex, FDescriptorInfo &Info)
@@ -156,42 +196,16 @@ protected:
 
 		ARI_ASSERT(Info.SRVDimension != ESRVDimensions::None, "Dx12 resource table constructed with srv dimension of type none");
 		D3D12_SHADER_RESOURCE_VIEW_DESC Desc{};		
+		Desc.Format = DX12TranslateFormat(Info.Format);
+		Desc.ViewDimension = DX12TranslateSRVDimension(Info.SRVDimension);
 
-		switch (Info.SRVDimension)
+		//buffer srvs
+		if (Info.SRVDimension == ESRVDimensions::Buffer)
 		{
-		case ESRVDimensions::Buffer:
-			//Desc.Format = implement this as needed
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 			Desc.Buffer.FirstElement = Info.Buffer.FirstElementIndex;
 			Desc.Buffer.NumElements = Info.Buffer.NumElements;
 			Desc.Buffer.StructureByteStride = Info.Buffer.StructByteStride;
 			Desc.Buffer.Flags = Info.Buffer.bIsRaw ? D3D12_BUFFER_SRV_FLAG_RAW : D3D12_BUFFER_SRV_FLAG_NONE;
-						
-			break;
-		case ESRVDimensions::Tex1D:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE1D;
-			break;
-		case ESRVDimensions::Tex2D:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-			break;
-		case ESRVDimensions::Tex3D:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE3D;
-			break;
-		case ESRVDimensions::TexCube:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
-			break;
-		case ESRVDimensions::Tex1DArray:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE1DARRAY;
-			break;
-		case ESRVDimensions::Tex2DArray:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-			break;
-		case ESRVDimensions::TexCubeArray:
-			Desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBEARRAY;
-			break;
-		default:
-			ARI_THROW_ERROR(-1, "Dx12 resource table, unknown srv dimension");
-			break;
 		}
 		
 		//Texture srvs
@@ -223,7 +237,9 @@ protected:
 			Desc.Texture1DArray.FirstArraySlice = Info.Array.FirstArraySliceToUse;
 		}
 
-		Factory.GetDevice()->CreateShaderResourceView(..., &Desc, m_pHeap->GetHandleCPU(DescriptorIndex));
+		auto &APIResource = static_cast<IDX12Resource &>(Info.Resource);
+		Factory.GetDevice()->CreateShaderResourceView(APIResource.GetAPIHandle().Get(), &Desc, m_pHeap->GetHandleCPU(DescriptorIndex));
+
 
 	}
 
@@ -233,23 +249,45 @@ protected:
 
 		D3D12_UNORDERED_ACCESS_VIEW_DESC Desc{};
 		
+		ARI_THROW_ERROR(-1, "Dx12 descriptor table uav not implemented");
+
 
 	}
 
+	//Only 2d depth views with mip slice 0
 	void CreateDSV(FDX12Factory &Factory, unsigned int DescriptorIndex, FDescriptorInfo &Info)
 	{
 		CheckAndDoDescriptorOverride(Factory, DescriptorIndex, Info);
 
-		D3D12_DEPTH_STENCIL_DESC1 Desc{};
+		D3D12_DEPTH_STENCIL_VIEW_DESC Desc{};
+		Desc.Format = DX12TranslateFormat(Info.Format);
+		D3D12_DSV_FLAGS Flags{};
+		Flags |= Info.DSV.bIsDepthReadOnly ? D3D12_DSV_FLAG_READ_ONLY_DEPTH : D3D12_DSV_FLAG_NONE;
+		Flags |= Info.DSV.bIsStencilReadOnly ? D3D12_DSV_FLAG_READ_ONLY_STENCIL : D3D12_DSV_FLAG_NONE;
+		Desc.Flags = Flags;
+		Desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+		//No mip spec for depth views
+		Desc.Texture2D.MipSlice = 0;
+
+		auto &APIResource = static_cast<IDX12Resource &>(Info.Resource);
+		Factory.GetDevice()->CreateDepthStencilView(APIResource.GetAPIHandle().Get(), &Desc, m_pHeap->GetHandleCPU(DescriptorIndex));
 
 
 	}
 
+	//Only 2d rtvs with mip and plane slice both 0
 	void CreateRTV(FDX12Factory &Factory, unsigned int DescriptorIndex, FDescriptorInfo &Info)
 	{
 		CheckAndDoDescriptorOverride(Factory, DescriptorIndex, Info);
 
 		D3D12_RENDER_TARGET_VIEW_DESC Desc{};
+		Desc.Format = DX12TranslateFormat(Info.Format);
+		Desc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+		//Mip and plane slice stay 0
+		//Desc.Texture2D
+
+		auto &APIResource = static_cast<IDX12Resource &>(Info.Resource);
+		Factory.GetDevice()->CreateRenderTargetView(APIResource.GetAPIHandle().Get(), &Desc, m_pHeap->GetHandleCPU(DescriptorIndex));
 
 
 	}
@@ -259,6 +297,21 @@ protected:
 		CheckAndDoDescriptorOverride(Factory, DescriptorIndex, Info);
 
 		D3D12_SAMPLER_DESC Desc{};
+		Desc.AddressU = DX12TranslateAddressMode(Info.Sampler.U);
+		Desc.AddressV = DX12TranslateAddressMode(Info.Sampler.V);
+		Desc.AddressW = DX12TranslateAddressMode(Info.Sampler.W);
+		Desc.Filter = DX12TranslateFilterMode(Info.Sampler.FilterMode);
+		Desc.MaxAnisotropy = Info.Sampler.MaxAnisotropyLevel;
+		//Integer spec only
+		Desc.MinLOD = Info.Sampler.LowestMipToUse;
+		Desc.MaxLOD = Info.Sampler.HighestMiptoUse;
+		Desc.MipLODBias = Info.Sampler.MipBias;
+		//Border always black
+		//Comparision func pending
+		//Desc.ComparisonFunc = DX12TranslateComparisonFunc(Info.Sampler.)
+
+		Factory.GetDevice()->CreateSampler(&Desc, m_pHeap->GetHandleCPU(DescriptorIndex));
+
 
 	}
 

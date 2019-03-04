@@ -42,6 +42,8 @@
     <ClInclude Include="hdr\dx12\DX12ResourceTable.h" />
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h" />
     <ClInclude Include="hdr\dx12\DX12CmdQueue.h" />
+    <ClInclude Include="hdr\dx12\DX12TypeTranslations.h" />
+    <ClInclude Include="hdr\dx12\IDX12Resource.h" />
     <ClInclude Include="hdr\GAPIMisc.h" />
     <ClInclude Include="hdr\IPipelineState.h" />
     <ClInclude Include="hdr\IResourceBindings.h" />
