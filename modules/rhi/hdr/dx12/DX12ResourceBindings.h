@@ -9,7 +9,7 @@
 
 using Microsoft::WRL::ComPtr;
 
-
+/*
 
 enum class ERB_ResourceType : unsigned char
 {
@@ -86,3 +86,4 @@ protected:
 };
 
 
+*/

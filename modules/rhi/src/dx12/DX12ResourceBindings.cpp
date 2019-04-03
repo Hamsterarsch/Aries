@@ -6,7 +6,7 @@
 //Static-------------------
 
 
-
+/*
 //Public----------------
 
 FDX12ResourceBindings::FDX12ResourceBindings(const std::vector<FRB_LayoutNode> &vLayouts)
@@ -154,7 +154,7 @@ FDX12ResourceBindings::FDX12ResourceBindings(const std::vector<FRB_LayoutNode> &
 
 	//Flags:
 	//Volatile == descriptor table data can be modified any time except during execution of that cmd list (Default root signature v1.0)
-	//None(Static) == descriptors are assumed static: descriptor table is fully initialized when set on cmd list (record)
+	//Default(Static) == descriptors are assumed static: descriptor table is fully initialized when set on cmd list (record)
 	//		  and 'cannot be changed untile the list executes the last time' (invalidates the list ?) -- (Default for v.1.1 signatures)
 		//for bundles descriptor have to be ready at record. tables to static descriptor have to be set in the bundle, they do not inherit
 		//and they can not change until the bundle executes the last time (a cmd list can use the tables's descriptors when the bundle returns)
@@ -254,7 +254,7 @@ void FDX12ResourceBindings::RateDataFrequency(const FRB_LayoutNode *pNode, float
 		break;
 
 	}
-	*/
+	(asterisk)/
 
 }
 
@@ -347,3 +347,4 @@ D3D12_DESCRIPTOR_RANGE_TYPE FDX12ResourceBindings::TranslateDescriptorRangeType(
 	
 
 }
+*/

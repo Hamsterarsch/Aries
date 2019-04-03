@@ -26,6 +26,9 @@ public:
 	UINT64 GetGPUAddress() const final override { return m_pResource->GetGPUVirtualAddress(); }
 
 	size_t GetSizeInBytes() const noexcept final override { return m_SizeInBytes; }
+	
+	EAPITypes GetAPIType() const noexcept override { return EAPITypes::DX12; }
+
 
 protected:
 	ComPtr<ID3D12Resource> m_pResource;

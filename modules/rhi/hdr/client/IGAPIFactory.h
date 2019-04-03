@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>//rework the os dependecy
 #include <memory>
+#include <vector>
 #include "GAPITypes.h"
 
 //Added for client convenience
@@ -102,6 +103,8 @@ public:
 
 	virtual std::unique_ptr<IReservedBuffer> MakeReservedBuffer(EBufferTypes Type, size_t SizeInBytes) = 0;
 
+	//todo: implement interfaces for returned
+
 	virtual std::unique_ptr<class FDX12CmdQueue> MakeCmdQueue(ECmdQueueType Type, int Priority, bool bHasGPUTimeoutEnabled) = 0;
 
 	virtual std::unique_ptr<class FDX12CmdAllocator> MakeCmdAllocator(bool bForBundleRecording) = 0;
@@ -109,5 +112,10 @@ public:
 	virtual std::unique_ptr<class FDX12CmdList> MakeCmdList(const FDX12CmdAllocator &Allocator) = 0;
 
 	virtual std::unique_ptr<class FDX12PlacedResource> MakePlacedBuffer(IHeap &Heap, size_t SizeInBytes, void *pData) = 0;
+
+	virtual std::unique_ptr<class FDX12DescriptorTable> MakeDescriptorTable(const std::vector<struct FDescriptorInfo> &vDescriptorInfos, EDescriptorHeapTypes TableType) = 0;
+
+	virtual std::unique_ptr<class FDX12RootSignature> MakeRootSignature(const struct FRootSignatureInfo &SignatureInfo) = 0;
+
 
 };

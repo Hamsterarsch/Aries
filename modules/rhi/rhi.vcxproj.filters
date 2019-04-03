@@ -39,9 +39,6 @@
     <ClInclude Include="hdr\dx12\DX12ResourceBindings.h">
       <Filter>hdr\dx12</Filter>
     </ClInclude>
-    <ClInclude Include="hdr\dx12\DX12ResourceTable.h">
-      <Filter>hdr\dx12</Filter>
-    </ClInclude>
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h">
       <Filter>hdr\dx12</Filter>
     </ClInclude>
@@ -120,6 +117,12 @@
     <ClInclude Include="hdr\dx12\DX12TypeTranslations.h">
       <Filter>hdr\dx12</Filter>
     </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12RootSignature.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
+    <ClInclude Include="hdr\dx12\DX12DescriptorTable.h">
+      <Filter>hdr\dx12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -153,6 +156,12 @@
       <Filter>src\dx12</Filter>
     </ClCompile>
     <ClCompile Include="src\dx12\DX12CmdQueue.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12DescriptorTable.cpp">
+      <Filter>src\dx12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dx12\DX12TypeTranslations.cpp">
       <Filter>src\dx12</Filter>
     </ClCompile>
   </ItemGroup>

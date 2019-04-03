@@ -39,7 +39,8 @@
     <ClInclude Include="hdr\dx12\DX12PSO.h" />
     <ClInclude Include="hdr\dx12\DX12ReservedBuffer.h" />
     <ClInclude Include="hdr\dx12\DX12ResourceBindings.h" />
-    <ClInclude Include="hdr\dx12\DX12ResourceTable.h" />
+    <ClInclude Include="hdr\dx12\DX12DescriptorTable.h" />
+    <ClInclude Include="hdr\dx12\DX12RootSignature.h" />
     <ClInclude Include="hdr\dx12\DX12SurfacePolicy.h" />
     <ClInclude Include="hdr\dx12\DX12CmdQueue.h" />
     <ClInclude Include="hdr\dx12\DX12TypeTranslations.h" />
@@ -61,7 +62,9 @@
     <ClCompile Include="src\dx12\DX12PSO.cpp" />
     <ClCompile Include="src\dx12\DX12ReservedBuffer.cpp" />
     <ClCompile Include="src\dx12\DX12ResourceBindings.cpp" />
+    <ClCompile Include="src\dx12\DX12DescriptorTable.cpp" />
     <ClCompile Include="src\dx12\DX12SurfacePolicy.cpp" />
+    <ClCompile Include="src\dx12\DX12TypeTranslations.cpp" />
     <ClCompile Include="src\Rhi.cpp" />
     <ClCompile Include="src\win\WinWindow.cpp" />
   </ItemGroup>

@@ -4,6 +4,7 @@
 #include <dxgi1_4.h>
 #include <memory>
 #include "client/IGAPIFactory.h"
+#include <vector>
 
 using Microsoft::WRL::ComPtr;
 
@@ -14,7 +15,9 @@ public:
 	static std::shared_ptr<FDX12Factory> GetInstance();
 
 	IDXGIFactory4 *GetDXGIFactory() const noexcept { return m_pDXGIFactory.Get(); }
+
 	ID3D12Device *GetDevice() const noexcept { return m_pDevice.Get(); }
+
 	ID3D12CommandQueue *GetFactoryCmdQ() const noexcept { return m_pFactoryCmdQ.Get(); }
 
 	virtual EAPITypes GetApiType() const override { return EAPITypes::DX12; }
@@ -30,12 +33,16 @@ public:
 	virtual std::unique_ptr<class FDX12CmdAllocator> MakeCmdAllocator(bool bForBundleRecording) override;
 
 	virtual std::unique_ptr<class FDX12CmdList> MakeCmdList(const FDX12CmdAllocator &Allocator) override;
-		
+	
 	virtual std::unique_ptr<class FDX12PlacedResource> MakePlacedBuffer(IHeap &Heap, size_t SizeInBytes, void *pData) override;
 	
 	std::unique_ptr<class FDX12PlacedResource> MakePlacedTexture(IHeap &Heap, size_t SizeInBytes, void *pData);
 	
-	
+	virtual std::unique_ptr<class FDX12DescriptorTable> MakeDescriptorTable(const std::vector<struct FDescriptorInfo> &vDescriptorInfos, EDescriptorHeapTypes TableType) override;
+
+	virtual std::unique_ptr<class FDX12RootSignature> MakeRootSignature(const struct FRootSignatureInfo &SignatureInfo) override;
+
+
 protected:
 	FDX12Factory();
 
@@ -44,9 +51,14 @@ protected:
 
 
 	bool m_bUseWarpDevice;
+
 	ComPtr<ID3D12Device> m_pDevice;
+
 	ComPtr<IDXGIFactory4> m_pDXGIFactory;
+
 	ComPtr<ID3D12CommandQueue> m_pFactoryCmdQ;
+
 	ComPtr<ID3D12CommandAllocator> m_pCommonCmdQAlloc;
-	
+
+
 };
