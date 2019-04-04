@@ -18,14 +18,14 @@ FDX12DescriptorTable::FDX12DescriptorTable(FDX12Factory &Factory, const std::vec
 		}
 		ARI_ASSERT(pResourceLock->GetAPIType() == EAPITypes::DX12, "Dx12 descriptor table, resource api mismatch");
 			   
-		if (CheckAndDoDescriptorOverride(Factory, DescriptorIndex, DescriptorInfo))
-		{
-			continue;
-		}
-		
 		m_vPartialRangeDescs.at(DescriptorIndex).NumDescriptors = 1;
 		m_vPartialRangeDescs.at(DescriptorIndex).OffsetInDescriptorsFromTableStart = DescriptorIndex;
 		m_vPartialRangeDescs.at(DescriptorIndex).RangeType = DX12TranslateDescriptorTypes(DescriptorInfo.Type);
+
+		if (CheckAndDoDescriptorOverride(Factory, DescriptorIndex, DescriptorInfo))
+		{
+			continue;
+		}		
 		
 		switch (DescriptorInfo.Type)
 		{
